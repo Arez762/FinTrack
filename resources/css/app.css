@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swal2-popup.fintrack-swal {
+    border-radius: 0.75rem;
+    font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+}
+
+.fintrack-swal .swal2-title {
+    font-weight: 600;
+}
+
+.fintrack-swal-list {
+    margin: 0;
+    padding-left: 1.15rem;
+    text-align: left;
+}
+
+.fintrack-swal-list li + li {
+    margin-top: 0.25rem;
+}
+
+.fintrack-swal-toast {
+    font-size: 0.875rem;
+}

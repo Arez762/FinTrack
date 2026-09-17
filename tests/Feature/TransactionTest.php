@@ -434,4 +434,61 @@ class TransactionTest extends TestCase
             ->where('totals.income', 0)
         );
     }
+
+    /**
+     * Skenario 14: membuat transaksi income menambah saldo akun, dan membuat
+     * transaksi expense mengurangi saldo akun.
+     */
+    public function test_creating_transactions_updates_the_account_balance(): void
+    {
+        $this->post(route('transactions.store'), [
+            'type' => 'income',
+            'account_id' => $this->account->id,
+            'category_id' => $this->incomeCategory->id,
+            'amount' => 500_000,
+            'transaction_date' => Carbon::now()->format('Y-m-d'),
+        ])->assertRedirect(route('transactions.index'));
+
+        $this->post(route('transactions.store'), [
+            'type' => 'expense',
+            'account_id' => $this->account->id,
+            'category_id' => $this->expenseCategory->id,
+            'amount' => 200_000,
+            'transaction_date' => Carbon::now()->format('Y-m-d'),
+        ])->assertRedirect(route('transactions.index'));
+
+        $accounts = collect(
+            $this->get(route('accounts.index'))->assertOk()->inertiaProps('accounts'),
+        )->keyBy('id');
+
+        $this->assertEquals(1_300_000, $accounts[$this->account->id]['balance']);
+    }
+
+    /**
+     * Skenario 15: menghapus transaksi mengembalikan saldo akun ke kondisi
+     * sebelumnya.
+     */
+    public function test_deleting_a_transaction_restores_the_account_balance(): void
+    {
+        $transaction = Transaction::factory()->create([
+            'user_id' => $this->user->id,
+            'account_id' => $this->account->id,
+            'category_id' => $this->incomeCategory->id,
+            'type' => 'income',
+            'amount' => 300_000,
+            'description' => null,
+            'transaction_date' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $this->delete(route('transactions.destroy', $transaction->id))
+            ->assertRedirect(route('transactions.index'));
+
+        $this->assertDatabaseMissing('transactions', ['id' => $transaction->id]);
+
+        $accounts = collect(
+            $this->get(route('accounts.index'))->assertOk()->inertiaProps('accounts'),
+        )->keyBy('id');
+
+        $this->assertEquals(1_000_000, $accounts[$this->account->id]['balance']);
+    }
 }

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
-class BudgetCrudTest extends TestCase
+class BudgetTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -69,7 +69,7 @@ class BudgetCrudTest extends TestCase
         $this->yearlyBudget(['category' => $this->transport]);
 
         $otherCategory = $this->categoryFor($this->otherUser, 'Secret', 'expense');
-        $this->otherUser->budgets()->create([
+        Budget::factory()->for($this->otherUser)->create([
             'category_id' => $otherCategory->id,
             'amount_limit' => 500_000,
             'period' => 'month',
@@ -408,7 +408,7 @@ class BudgetCrudTest extends TestCase
     public function test_cannot_update_another_users_budget(): void
     {
         $otherCategory = $this->categoryFor($this->otherUser, 'Hidden', 'expense');
-        $otherBudget = $this->otherUser->budgets()->create([
+        $otherBudget = Budget::factory()->for($this->otherUser)->create([
             'category_id' => $otherCategory->id,
             'amount_limit' => 100_000,
             'period' => 'month',
@@ -430,7 +430,7 @@ class BudgetCrudTest extends TestCase
     public function test_cannot_delete_another_users_budget(): void
     {
         $otherCategory = $this->categoryFor($this->otherUser, 'Hidden', 'expense');
-        $otherBudget = $this->otherUser->budgets()->create([
+        $otherBudget = Budget::factory()->for($this->otherUser)->create([
             'category_id' => $otherCategory->id,
             'amount_limit' => 100_000,
             'period' => 'month',
@@ -455,7 +455,7 @@ class BudgetCrudTest extends TestCase
 
     private function accountFor(User $user, string $name): Account
     {
-        return Account::create([
+        return Account::factory()->create([
             'user_id' => $user->id,
             'name' => $name,
             'type' => 'cash',
@@ -465,7 +465,7 @@ class BudgetCrudTest extends TestCase
 
     private function categoryFor(User $user, string $name, string $type, ?string $color = null): Category
     {
-        return Category::create([
+        return Category::factory()->create([
             'user_id' => $user->id,
             'name' => $name,
             'type' => $type,
@@ -481,7 +481,7 @@ class BudgetCrudTest extends TestCase
         $category = $overrides['category'] ?? $this->food;
         unset($overrides['category']);
 
-        return $this->user->budgets()->create(array_merge([
+        return Budget::factory()->for($this->user)->create(array_merge([
             'category_id' => $category->id,
             'amount_limit' => 1_000_000,
             'period' => 'month',
@@ -498,7 +498,7 @@ class BudgetCrudTest extends TestCase
         $category = $overrides['category'] ?? $this->food;
         unset($overrides['category']);
 
-        return $this->user->budgets()->create(array_merge([
+        return Budget::factory()->for($this->user)->create(array_merge([
             'category_id' => $category->id,
             'amount_limit' => 12_000_000,
             'period' => 'year',
@@ -511,7 +511,7 @@ class BudgetCrudTest extends TestCase
     {
         $user ??= $this->user;
 
-        return Transaction::create([
+        return Transaction::factory()->create([
             'user_id' => $user->id,
             'account_id' => $user->is($this->user) ? $this->account->id : $this->otherAccount->id,
             'category_id' => $category->id,

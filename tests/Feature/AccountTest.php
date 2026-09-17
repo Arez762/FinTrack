@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class AccountCrudTest extends TestCase
+class AccountTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -35,13 +35,13 @@ class AccountCrudTest extends TestCase
 
     public function test_index_lists_only_own_accounts_with_computed_balance(): void
     {
-        Account::create([
+        Account::factory()->create([
             'user_id' => $this->user->id,
             'name' => 'Cash',
             'type' => 'cash',
             'initial_balance' => 1_000_000,
         ]);
-        Account::create([
+        Account::factory()->create([
             'user_id' => $this->otherUser->id,
             'name' => 'Secret Wallet',
             'type' => 'ewallet',
@@ -58,21 +58,21 @@ class AccountCrudTest extends TestCase
 
     public function test_balance_includes_transactions_signed_by_type(): void
     {
-        $account = Account::create([
+        $account = Account::factory()->create([
             'user_id' => $this->user->id,
             'name' => 'Cash',
             'type' => 'cash',
             'initial_balance' => 1_000_000,
         ]);
 
-        Transaction::create([
+        Transaction::factory()->create([
             'user_id' => $this->user->id,
             'account_id' => $account->id,
             'type' => 'income',
             'amount' => 500_000,
             'transaction_date' => now()->toDateString(),
         ]);
-        Transaction::create([
+        Transaction::factory()->create([
             'user_id' => $this->user->id,
             'account_id' => $account->id,
             'type' => 'expense',
@@ -149,14 +149,14 @@ class AccountCrudTest extends TestCase
 
     public function test_edit_page_is_accessible(): void
     {
-        $account = $this->user->accounts()->create(['name' => 'Cash', 'type' => 'cash', 'initial_balance' => 0]);
+        $account = Account::factory()->for($this->user)->create(['name' => 'Cash', 'type' => 'cash', 'initial_balance' => 0]);
 
         $this->get(route('accounts.edit', $account->id))->assertOk();
     }
 
     public function test_account_can_be_updated(): void
     {
-        $account = $this->user->accounts()->create(['name' => 'Cash', 'type' => 'cash', 'initial_balance' => 0]);
+        $account = Account::factory()->for($this->user)->create(['name' => 'Cash', 'type' => 'cash', 'initial_balance' => 0]);
 
         $this->put(route('accounts.update', $account->id), [
             'name' => 'Cash Baru',
@@ -174,7 +174,7 @@ class AccountCrudTest extends TestCase
 
     public function test_account_can_be_deleted(): void
     {
-        $account = $this->user->accounts()->create(['name' => 'Temp', 'type' => 'cash', 'initial_balance' => 0]);
+        $account = Account::factory()->for($this->user)->create(['name' => 'Temp', 'type' => 'cash', 'initial_balance' => 0]);
 
         $this->delete(route('accounts.destroy', $account->id))
             ->assertRedirect(route('accounts.index'));
@@ -184,7 +184,7 @@ class AccountCrudTest extends TestCase
 
     public function test_cannot_update_another_users_account(): void
     {
-        $otherAccount = Account::create([
+        $otherAccount = Account::factory()->create([
             'user_id' => $this->otherUser->id,
             'name' => 'Milk',
             'type' => 'cash',
@@ -202,7 +202,7 @@ class AccountCrudTest extends TestCase
 
     public function test_cannot_delete_another_users_account(): void
     {
-        $otherAccount = Account::create([
+        $otherAccount = Account::factory()->create([
             'user_id' => $this->otherUser->id,
             'name' => 'Milk',
             'type' => 'cash',

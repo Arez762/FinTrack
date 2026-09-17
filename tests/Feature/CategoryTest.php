@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CategoryCrudTest extends TestCase
+class CategoryTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -34,8 +34,8 @@ class CategoryCrudTest extends TestCase
 
     public function test_index_lists_only_own_categories(): void
     {
-        Category::create(['user_id' => $this->user->id, 'name' => 'Makan', 'type' => 'expense', 'color' => '#ef4444']);
-        Category::create(['user_id' => $this->otherUser->id, 'name' => 'Secret', 'type' => 'income', 'color' => '#22c55e']);
+        Category::factory()->create(['user_id' => $this->user->id, 'name' => 'Makan', 'type' => 'expense', 'color' => '#ef4444']);
+        Category::factory()->create(['user_id' => $this->otherUser->id, 'name' => 'Secret', 'type' => 'income', 'color' => '#22c55e']);
 
         $response = $this->get(route('categories.index'))->assertOk();
 
@@ -102,14 +102,14 @@ class CategoryCrudTest extends TestCase
 
     public function test_edit_page_is_accessible(): void
     {
-        $category = $this->user->categories()->create(['name' => 'Makan', 'type' => 'expense', 'color' => '#ef4444']);
+        $category = Category::factory()->for($this->user)->create(['name' => 'Makan', 'type' => 'expense', 'color' => '#ef4444']);
 
         $this->get(route('categories.edit', $category->id))->assertOk();
     }
 
     public function test_category_can_be_updated(): void
     {
-        $category = $this->user->categories()->create(['name' => 'Makan', 'type' => 'expense', 'color' => '#ef4444']);
+        $category = Category::factory()->for($this->user)->create(['name' => 'Makan', 'type' => 'expense', 'color' => '#ef4444']);
 
         $this->put(route('categories.update', $category->id), [
             'name' => 'Makanan',
@@ -126,7 +126,7 @@ class CategoryCrudTest extends TestCase
 
     public function test_category_can_be_deleted(): void
     {
-        $category = $this->user->categories()->create(['name' => 'Temp', 'type' => 'expense']);
+        $category = Category::factory()->for($this->user)->create(['name' => 'Temp', 'type' => 'expense']);
 
         $this->delete(route('categories.destroy', $category->id))
             ->assertRedirect(route('categories.index'));
@@ -136,7 +136,7 @@ class CategoryCrudTest extends TestCase
 
     public function test_cannot_update_another_users_category(): void
     {
-        $otherCategory = Category::create([
+        $otherCategory = Category::factory()->create([
             'user_id' => $this->otherUser->id,
             'name' => 'Milk',
             'type' => 'expense',
@@ -152,7 +152,7 @@ class CategoryCrudTest extends TestCase
 
     public function test_cannot_delete_another_users_category(): void
     {
-        $otherCategory = Category::create([
+        $otherCategory = Category::factory()->create([
             'user_id' => $this->otherUser->id,
             'name' => 'Milk',
             'type' => 'expense',

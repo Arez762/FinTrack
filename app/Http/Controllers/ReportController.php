@@ -26,7 +26,7 @@ class ReportController extends Controller
         $range = $validated['range'] ?? 'month';
         $categoryRange = $validated['category_range'] ?? 'month';
 
-        $service = new ReportDataService();
+        $service = new ReportDataService;
 
         return Inertia::render('Reports/Index', [
             'range' => $range,

@@ -37,7 +37,7 @@ const submit = () => {
             <input
                 id="name"
                 type="text"
-                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.name"
                 required
                 autofocus
@@ -51,7 +51,7 @@ const submit = () => {
 
             <select
                 id="type"
-                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.type"
                 required
             >
@@ -71,7 +71,7 @@ const submit = () => {
                 type="number"
                 step="0.01"
                 min="0"
-                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.initial_balance"
                 required
             />
@@ -82,7 +82,7 @@ const submit = () => {
         <div class="flex items-center justify-end gap-4">
             <Link
                 :href="route('accounts.index')"
-                class="inline-flex items-center rounded-md border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-md border border-primary-200 dark:border-primary-800 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
             >
                 Cancel
             </Link>

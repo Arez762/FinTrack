@@ -21,7 +21,7 @@ defineProps({
         <Head title="New Transfer" />
 
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800">
+            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                 New Transfer
             </h2>
         </template>

@@ -53,6 +53,18 @@ class DashboardController extends Controller
         $service = new ReportDataService;
         $budgetService = new BudgetProgressService;
 
+        $goals = $user->savingsGoals()
+            ->select(['target_amount', 'current_amount', 'is_completed'])
+            ->get();
+
+        $goalSummary = [
+            'total' => $goals->count(),
+            'active' => $goals->where('is_completed', false)->count(),
+            'average_progress' => round($goals->map(fn ($goal) => (float) $goal->target_amount > 0
+                ? min(100, ((float) $goal->current_amount / (float) $goal->target_amount) * 100)
+                : 0)->avg() ?? 0, 1),
+        ];
+
         $validated = $request->validate(['range' => ['sometimes', 'nullable', Rule::in(['week', 'month', 'year'])],
             'category_range' => ['sometimes', 'nullable', Rule::in(['week', 'month', 'year'])],
         ]);
@@ -78,6 +90,7 @@ class DashboardController extends Controller
             'monthly' => $service->incomeExpense($user, $range),
             'category_expense' => $service->categoryExpense($user, $categoryRange),
             'monthLabel' => $now->format('F Y'),
+            'goal_summary' => $goalSummary,
         ]);
     }
 }

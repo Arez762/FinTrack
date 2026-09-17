@@ -22,23 +22,25 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head title="Daftar — FinTrack" />
 
         <div class="mb-6">
-            <h2 class="text-xl font-bold text-primary-900">Create an account</h2>
-            <p class="mt-1 text-sm text-primary-600">
-                Join FinTrack to take control of your finances.
+            <h2 class="text-center text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                Buat Akun finTrack
+            </h2>
+            <p class="mt-2 text-center text-sm text-slate-500 dark:text-slate-400">
+                Mulai catat keuanganmu hari ini
             </p>
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="space-y-5">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Nama" />
 
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-1.5 block w-full"
                     v-model="form.name"
                     required
                     autofocus
@@ -48,13 +50,13 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
-            <div class="mt-4">
+            <div>
                 <InputLabel for="email" value="Email" />
 
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1.5 block w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"
@@ -63,13 +65,13 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4">
+            <div>
                 <InputLabel for="password" value="Password" />
 
                 <TextInput
                     id="password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1.5 block w-full"
                     v-model="form.password"
                     required
                     autocomplete="new-password"
@@ -78,16 +80,16 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4">
+            <div>
                 <InputLabel
                     for="password_confirmation"
-                    value="Confirm Password"
+                    value="Konfirmasi Password"
                 />
 
                 <TextInput
                     id="password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1.5 block w-full"
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
@@ -99,22 +101,21 @@ const submit = () => {
                 />
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-primary-700 underline hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
+            <div>
+                <PrimaryButton class="w-full" :disabled="form.processing">
+                    Daftar
                 </PrimaryButton>
             </div>
         </form>
+
+        <p class="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
+            Sudah punya akun?
+            <Link
+                :href="route('login')"
+                class="font-medium text-primary-600 transition duration-150 hover:text-primary-500 hover:underline"
+            >
+                Masuk di sini
+            </Link>
+        </p>
     </GuestLayout>
 </template>

@@ -25,7 +25,7 @@ defineProps({
         <Head title="Edit Budget" />
 
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800">
+            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                 Edit Budget
             </h2>
         </template>

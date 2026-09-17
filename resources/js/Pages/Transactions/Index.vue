@@ -124,9 +124,9 @@ const typeLabels = {
 
 const typeBadgeClasses = {
     income:
-        'border-emerald-200 bg-emerald-50 text-emerald-700',
-    expense: 'border-red-200 bg-red-50 text-red-700',
-    transfer: 'border-slate-300 bg-slate-100 text-slate-600',
+        'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400',
+    expense: 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-500/10 dark:text-red-400',
+    transfer: 'border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300',
 };
 
 const formatIDR = (value) =>
@@ -145,10 +145,10 @@ const formatDate = (value) =>
 
 const amountClass = (transaction) =>
     transaction.type === 'income'
-        ? 'text-emerald-600'
+        ? 'text-emerald-600 dark:text-emerald-400'
         : transaction.type === 'expense'
-          ? 'text-red-600'
-          : 'text-slate-600';
+          ? 'text-red-600 dark:text-red-400'
+          : 'text-slate-600 dark:text-slate-300';
 
 const isTransfer = (transaction) =>
     transaction.type === 'transfer' && !!transaction.transfer_to_account;
@@ -178,7 +178,7 @@ const destroy = async (transaction) => {
 
         <template #header>
             <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800">
+                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                     Transactions
                 </h2>
 
@@ -186,7 +186,7 @@ const destroy = async (transaction) => {
                     <a
                         :href="exportUrl('csv')"
                         data-testid="export-csv"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50"
+                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
                     >
                         <ArrowDownTrayIcon class="h-4 w-4" />
                         Export CSV
@@ -195,7 +195,7 @@ const destroy = async (transaction) => {
                     <a
                         :href="exportUrl('pdf')"
                         data-testid="export-pdf"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50"
+                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
                     >
                         <ArrowDownTrayIcon class="h-4 w-4" />
                         Export PDF
@@ -204,7 +204,7 @@ const destroy = async (transaction) => {
                     <Link
                         :href="route('transfers.create')"
                         data-testid="new-transfer"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50"
+                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
                     >
                         <ArrowsRightLeftIcon class="h-4 w-4" />
                         Transfer
@@ -212,7 +212,7 @@ const destroy = async (transaction) => {
 
                     <button
                         @click="openCreate"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800"
+                        class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800 dark:focus:ring-offset-slate-900"
                     >
                         <PlusIcon class="h-4 w-4" />
                         New Transaction
@@ -225,15 +225,15 @@ const destroy = async (transaction) => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <form
                     @submit.prevent="applyFilters"
-                    class="mb-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+                    class="mb-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm"
                 >
                     <div class="mb-4 flex items-center gap-2">
                         <span
-                            class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-50 text-primary-600"
+                            class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-50 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400"
                         >
                             <FunnelIcon class="h-4 w-4" />
                         </span>
-                        <h3 class="text-sm font-semibold text-slate-900">
+                        <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100">
                             Filters
                         </h3>
                     </div>
@@ -242,14 +242,14 @@ const destroy = async (transaction) => {
                         <div>
                             <label
                                 for="filter-account"
-                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
                             >
                                 Account
                             </label>
                             <select
                                 id="filter-account"
                                 v-model="filters.account_id"
-                                class="mt-1 block w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                                class="mt-1 block w-full rounded-lg bg-white dark:bg-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
                             >
                                 <option value="">All accounts</option>
                                 <option
@@ -265,14 +265,14 @@ const destroy = async (transaction) => {
                         <div>
                             <label
                                 for="filter-category"
-                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
                             >
                                 Category
                             </label>
                             <select
                                 id="filter-category"
                                 v-model="filters.category_id"
-                                class="mt-1 block w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                                class="mt-1 block w-full rounded-lg bg-white dark:bg-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
                             >
                                 <option value="">All categories</option>
                                 <option
@@ -288,14 +288,14 @@ const destroy = async (transaction) => {
                         <div>
                             <label
                                 for="filter-type"
-                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
                             >
                                 Type
                             </label>
                             <select
                                 id="filter-type"
                                 v-model="filters.type"
-                                class="mt-1 block w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                                class="mt-1 block w-full rounded-lg bg-white dark:bg-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
                             >
                                 <option value="">All types</option>
                                 <option
@@ -311,7 +311,7 @@ const destroy = async (transaction) => {
                         <div>
                             <label
                                 for="filter-from"
-                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
                             >
                                 From Date
                             </label>
@@ -319,14 +319,14 @@ const destroy = async (transaction) => {
                                 id="filter-from"
                                 v-model="filters.date_from"
                                 type="date"
-                                class="mt-1 block w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                                class="mt-1 block w-full rounded-lg bg-white dark:bg-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
                             />
                         </div>
 
                         <div>
                             <label
                                 for="filter-to"
-                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                                class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300"
                             >
                                 To Date
                             </label>
@@ -334,7 +334,7 @@ const destroy = async (transaction) => {
                                 id="filter-to"
                                 v-model="filters.date_to"
                                 type="date"
-                                class="mt-1 block w-full rounded-lg border-slate-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                                class="mt-1 block w-full rounded-lg bg-white dark:bg-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500"
                             />
                         </div>
                     </div>
@@ -343,7 +343,7 @@ const destroy = async (transaction) => {
                         <button
                             type="button"
                             @click="resetFilters"
-                            class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50"
+                            class="inline-flex items-center rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
                         >
                             Reset Filter
                         </button>
@@ -361,21 +361,21 @@ const destroy = async (transaction) => {
                     class="mb-6 grid gap-4 sm:grid-cols-2"
                 >
                     <div
-                        class="flex items-center gap-4 rounded-xl border border-emerald-200 bg-white px-5 py-4 shadow-sm"
+                        class="flex items-center gap-4 rounded-xl border border-emerald-200 bg-white dark:border-emerald-800 dark:bg-slate-800 px-5 py-4 shadow-sm"
                     >
                         <span
-                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"
+                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
                         >
                             <ArrowTrendingUpIcon class="h-6 w-6" />
                         </span>
                         <div class="min-w-0">
                             <p
-                                class="text-xs font-semibold uppercase tracking-wider text-emerald-700"
+                                class="text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400"
                             >
                                 Total Income (filtered)
                             </p>
                             <p
-                                class="mt-1 truncate text-xl font-bold text-emerald-600"
+                                class="mt-1 truncate text-xl font-bold text-emerald-600 dark:text-emerald-400"
                             >
                                 {{ formatIDR(totals.income) }}
                             </p>
@@ -383,20 +383,20 @@ const destroy = async (transaction) => {
                     </div>
 
                     <div
-                        class="flex items-center gap-4 rounded-xl border border-red-200 bg-white px-5 py-4 shadow-sm"
+                        class="flex items-center gap-4 rounded-xl border border-red-200 bg-white dark:border-red-800 dark:bg-slate-800 px-5 py-4 shadow-sm"
                     >
                         <span
-                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600"
+                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/20 dark:text-red-400"
                         >
                             <ArrowTrendingDownIcon class="h-6 w-6" />
                         </span>
                         <div class="min-w-0">
                             <p
-                                class="text-xs font-semibold uppercase tracking-wider text-red-700"
+                                class="text-xs font-semibold uppercase tracking-wider text-red-700 dark:text-red-400"
                             >
                                 Total Expense (filtered)
                             </p>
-                            <p class="mt-1 truncate text-xl font-bold text-red-600">
+                            <p class="mt-1 truncate text-xl font-bold text-red-600 dark:text-red-400">
                                 {{ formatIDR(totals.expense) }}
                             </p>
                         </div>
@@ -404,64 +404,64 @@ const destroy = async (transaction) => {
                 </div>
 
                 <div
-                    class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+                    class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm"
                 >
                     <div class="hidden overflow-x-auto md:block">
-                        <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-slate-50">
+                        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                        <thead class="bg-slate-50 dark:bg-slate-800">
                             <tr>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Date
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Type
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Account
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Category
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Description
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Amount
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 bg-white">
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-700 bg-white dark:bg-slate-800">
                             <tr
                                 v-for="transaction in transactions.data"
                                 :key="transaction.id"
-                                class="transition duration-150 hover:bg-slate-50"
+                                class="transition duration-150 hover:bg-slate-50 dark:hover:bg-slate-800"
                             >
                                 <td
-                                    class="whitespace-nowrap px-6 py-4 text-sm text-slate-600"
+                                    class="whitespace-nowrap px-6 py-4 text-sm text-slate-600 dark:text-slate-300"
                                 >
                                     {{ formatDate(transaction.transaction_date) }}
                                 </td>
@@ -476,7 +476,7 @@ const destroy = async (transaction) => {
                                     </span>
                                 </td>
                                 <td
-                                    class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-900"
+                                    class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-900 dark:text-slate-100"
                                 >
                                     <span
                                         v-if="isTransfer(transaction)"
@@ -484,7 +484,7 @@ const destroy = async (transaction) => {
                                     >
                                         {{ transaction.account?.name }}
                                         <ArrowRightIcon
-                                            class="h-3.5 w-3.5 text-slate-400"
+                                            class="h-3.5 w-3.5 text-slate-400 dark:text-slate-500"
                                         />
                                         {{
                                             transaction.transfer_to_account
@@ -495,7 +495,7 @@ const destroy = async (transaction) => {
                                         {{ transaction.account?.name }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-slate-600">
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                     <span
                                         v-if="transaction.category"
                                         class="inline-flex items-center gap-2"
@@ -510,9 +510,9 @@ const destroy = async (transaction) => {
                                         ></span>
                                         {{ transaction.category.name }}
                                     </span>
-                                    <span v-else class="text-slate-400">-</span>
+                                    <span v-else class="text-slate-400 dark:text-slate-500">-</span>
                                 </td>
-                                <td class="max-w-[16rem] truncate px-6 py-4 text-sm text-slate-600">
+                                <td class="max-w-[16rem] truncate px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                     {{ transaction.description || '-' }}
                                 </td>
                                 <td
@@ -527,13 +527,13 @@ const destroy = async (transaction) => {
                                     >
                                         <button
                                             @click="openEdit(transaction)"
-                                            class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50 hover:text-primary-800"
+                                            class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50 hover:text-primary-800 dark:text-primary-400 dark:hover:bg-primary-500/10 dark:hover:text-primary-300"
                                         >
                                             Edit
                                         </button>
                                         <button
                                             @click="destroy(transaction)"
-                                            class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 hover:text-red-800"
+                                            class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 hover:text-red-800 dark:text-red-400 dark:hover:bg-red-500/10 dark:hover:text-red-300"
                                         >
                                             Delete
                                         </button>
@@ -547,16 +547,16 @@ const destroy = async (transaction) => {
                                         class="flex flex-col items-center justify-center text-center"
                                     >
                                         <span
-                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                                         >
                                             <RectangleStackIcon class="h-6 w-6" />
                                         </span>
                                         <p
-                                            class="mt-3 text-sm font-medium text-slate-700"
+                                            class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200"
                                         >
                                             No transactions yet.
                                         </p>
-                                        <p class="mt-1 text-xs text-slate-500">
+                                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                             Start recording your income and
                                             expenses to see them here.
                                         </p>
@@ -574,7 +574,7 @@ const destroy = async (transaction) => {
                     </div>
 
                     <!-- Mobile list -->
-                    <ul class="divide-y divide-slate-100 md:hidden">
+                    <ul class="divide-y divide-slate-100 dark:divide-slate-700 md:hidden">
                         <li
                             v-for="transaction in transactions.data"
                             :key="`m-${transaction.id}`"
@@ -592,7 +592,7 @@ const destroy = async (transaction) => {
                                             }"
                                         ></span>
                                         <p
-                                            class="truncate text-sm font-medium text-slate-900"
+                                            class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
                                         >
                                             {{
                                                 transaction.category?.name ||
@@ -602,7 +602,7 @@ const destroy = async (transaction) => {
                                         </p>
                                     </div>
                                     <p
-                                        class="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500"
+                                        class="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 dark:text-slate-400"
                                     >
                                         <span>{{
                                             formatDate(
@@ -617,7 +617,7 @@ const destroy = async (transaction) => {
                                             {{ transaction.account?.name }}
                                             <span
                                                 aria-hidden="true"
-                                                class="text-slate-400"
+                                                class="text-slate-400 dark:text-slate-500"
                                                 >→</span
                                             >
                                             {{
@@ -652,13 +652,13 @@ const destroy = async (transaction) => {
                             <div class="mt-2 flex items-center justify-end gap-1">
                                 <button
                                     @click="openEdit(transaction)"
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-500/10"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     @click="destroy(transaction)"
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
                                 >
                                     Delete
                                 </button>
@@ -673,14 +673,14 @@ const destroy = async (transaction) => {
                                 class="flex flex-col items-center justify-center text-center"
                             >
                                 <span
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                                 >
                                     <RectangleStackIcon class="h-6 w-6" />
                                 </span>
-                                <p class="mt-3 text-sm font-medium text-slate-700">
+                                <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                                     No transactions yet.
                                 </p>
-                                <p class="mt-1 text-xs text-slate-500">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     Start recording your income and expenses.
                                 </p>
                                 <button
@@ -695,9 +695,9 @@ const destroy = async (transaction) => {
 
                     <div
                         v-if="transactions.total > transactions.per_page"
-                        class="flex items-center justify-between border-t border-slate-200 px-6 py-3"
+                        class="flex items-center justify-between border-t border-slate-200 dark:border-slate-700 px-6 py-3"
                     >
-                        <p class="text-sm text-slate-600">
+                        <p class="text-sm text-slate-600 dark:text-slate-300">
                             Page {{ transactions.current_page }} of
                             {{ transactions.last_page }}
                         </p>
@@ -706,14 +706,14 @@ const destroy = async (transaction) => {
                             <button
                                 @click="goTo(transactions.prev_page_url)"
                                 :disabled="!transactions.prev_page_url"
-                                class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 Previous
                             </button>
                             <button
                                 @click="goTo(transactions.next_page_url)"
                                 :disabled="!transactions.next_page_url"
-                                class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                                class="rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                                 Next
                             </button>
@@ -725,11 +725,11 @@ const destroy = async (transaction) => {
 
         <Modal :show="modal.open" @close="closeModal" max-width="2xl">
             <div class="max-h-[85vh] overflow-y-auto">
-                <div class="border-b border-slate-200 px-6 py-4">
-                    <h3 class="text-base font-semibold text-slate-900">
+                <div class="border-b border-slate-200 dark:border-slate-700 px-6 py-4">
+                    <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">
                         {{ modal.transaction ? 'Edit Transaction' : 'New Transaction' }}
                     </h3>
-                    <p class="mt-1 text-sm text-slate-500">
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         Record an income, expense, or transfer.
                     </p>
                 </div>

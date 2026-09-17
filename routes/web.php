@@ -7,10 +7,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecurringTransactionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SavingsGoalController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionExportController;
 use App\Http\Controllers\TransferController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,8 +18,6 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
 });
 
@@ -37,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('accounts', AccountController::class)->except(['show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('budgets', BudgetController::class)->except(['show']);
+
+    Route::resource('savings-goals', SavingsGoalController::class)->except(['show']);
+    Route::post('/savings-goals/{savings_goal}/add-funds', [SavingsGoalController::class, 'addFunds'])
+        ->name('savings-goals.addFunds');
 
     Route::patch('/recurring-transactions/{recurring_transaction}/toggle', [RecurringTransactionController::class, 'toggleActive'])
         ->name('recurring-transactions.toggle');

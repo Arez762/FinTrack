@@ -60,13 +60,13 @@ const typeOptions = [
     {
         value: 'income',
         label: 'Income',
-        active: 'border-emerald-400 bg-emerald-50 text-emerald-700',
+        active: 'border-emerald-400 bg-emerald-50 text-emerald-700 dark:text-emerald-400',
         radio: 'text-emerald-500 focus:ring-emerald-500',
     },
     {
         value: 'expense',
         label: 'Expense',
-        active: 'border-red-400 bg-red-50 text-red-700',
+        active: 'border-red-400 bg-red-50 text-red-700 dark:text-red-400',
         radio: 'text-red-500 focus:ring-red-500',
     },
 ];
@@ -105,7 +105,7 @@ const submit = () => {
                     :class="
                         form.type === option.value
                             ? option.active
-                            : 'border-slate-300 bg-white text-slate-600 hover:bg-slate-50'
+                            : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                     "
                 >
                     <input
@@ -113,7 +113,7 @@ const submit = () => {
                         :value="option.value"
                         v-model="form.type"
                         :data-testid="`type-${option.value}`"
-                        class="h-4 w-4 border-slate-300"
+                        class="h-4 w-4 border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
                         :class="option.radio"
                     />
                     {{ option.label }}
@@ -129,7 +129,7 @@ const submit = () => {
 
                 <select
                     id="account_id"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.account_id"
                     required
                 >
@@ -151,7 +151,7 @@ const submit = () => {
 
                 <select
                     id="category_id"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.category_id"
                     required
                 >
@@ -176,7 +176,7 @@ const submit = () => {
                     type="number"
                     step="0.01"
                     min="0"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.amount"
                     required
                 />
@@ -189,7 +189,7 @@ const submit = () => {
 
                 <select
                     id="frequency"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.frequency"
                     required
                 >
@@ -211,12 +211,12 @@ const submit = () => {
                 <input
                     id="start_date"
                     type="date"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:max-w-xs"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:max-w-xs"
                     v-model="form.start_date"
                     required
                 />
 
-                <p class="mt-1.5 text-xs text-slate-500">
+                <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
                     The first transaction is created on this date (or on the
                     next scheduler run).
                 </p>
@@ -231,7 +231,7 @@ const submit = () => {
             <textarea
                 id="description"
                 rows="3"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.description"
                 placeholder="Add a note..."
             ></textarea>
@@ -242,7 +242,7 @@ const submit = () => {
         <div class="flex items-center justify-end gap-4">
             <Link
                 :href="route('recurring-transactions.index')"
-                class="inline-flex items-center rounded-lg border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-lg border border-primary-200 dark:border-primary-800 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
             >
                 Cancel
             </Link>

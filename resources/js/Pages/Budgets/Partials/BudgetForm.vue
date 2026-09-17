@@ -89,7 +89,7 @@ const submit = () => {
 
             <select
                 id="category_id"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.category_id"
                 required
             >
@@ -103,7 +103,7 @@ const submit = () => {
                 </option>
             </select>
 
-            <p v-if="categories.length === 0" class="mt-2 text-xs text-slate-500">
+            <p v-if="categories.length === 0" class="mt-2 text-xs text-slate-500 dark:text-slate-400">
                 You need an expense category before creating a budget.
             </p>
 
@@ -118,7 +118,7 @@ const submit = () => {
                 type="number"
                 step="0.01"
                 min="0"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.amount_limit"
                 required
             />
@@ -136,8 +136,8 @@ const submit = () => {
                     class="flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium transition duration-150 ease-in-out"
                     :class="
                         form.period === option.value
-                            ? 'border-primary-400 bg-primary-50 text-primary-700'
-                            : 'border-slate-300 bg-white text-slate-600 hover:bg-slate-50'
+                            ? 'border-primary-400 bg-primary-50 text-primary-700 dark:border-primary-500 dark:bg-primary-500/20 dark:text-primary-300'
+                            : 'border-slate-300 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-800'
                     "
                 >
                     <input
@@ -145,7 +145,7 @@ const submit = () => {
                         :value="option.value"
                         v-model="form.period"
                         :data-testid="`period-${option.value}`"
-                        class="h-4 w-4 border-slate-300 text-primary-500 focus:ring-primary-500"
+                        class="h-4 w-4 border-slate-300 text-primary-500 focus:ring-primary-500 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600"
                     />
                     <span>
                         {{ option.label }}
@@ -165,7 +165,7 @@ const submit = () => {
 
                 <select
                     id="month"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.month"
                 >
                     <option
@@ -185,7 +185,7 @@ const submit = () => {
 
                 <select
                     id="year"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.year"
                 >
                     <option v-for="year in yearOptions" :key="year" :value="year">
@@ -200,7 +200,7 @@ const submit = () => {
         <div class="flex items-center justify-end gap-4">
             <Link
                 :href="route('budgets.index')"
-                class="inline-flex items-center rounded-lg border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-lg border border-primary-200 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10 dark:border-primary-800"
             >
                 Cancel
             </Link>

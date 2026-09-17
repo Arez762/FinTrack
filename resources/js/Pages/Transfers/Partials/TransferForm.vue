@@ -85,7 +85,7 @@ const submit = async () => {
 
                 <select
                     id="account_id"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.account_id"
                     required
                 >
@@ -107,7 +107,7 @@ const submit = async () => {
 
                 <select
                     id="transfer_to_account_id"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.transfer_to_account_id"
                     required
                 >
@@ -132,7 +132,7 @@ const submit = async () => {
             <button
                 type="button"
                 @click="swap"
-                class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-600 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50"
+                class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-600 dark:text-slate-300 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
             >
                 <ArrowsRightLeftIcon class="h-4 w-4" />
                 Swap
@@ -148,7 +148,7 @@ const submit = async () => {
                     type="number"
                     step="0.01"
                     min="0"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.amount"
                     required
                 />
@@ -162,7 +162,7 @@ const submit = async () => {
                 <input
                     id="transaction_date"
                     type="date"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.transaction_date"
                     required
                 />
@@ -180,7 +180,7 @@ const submit = async () => {
             <textarea
                 id="description"
                 rows="3"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.description"
                 placeholder="Add a note..."
             ></textarea>
@@ -191,7 +191,7 @@ const submit = async () => {
         <div class="flex items-center justify-end gap-4">
             <Link
                 :href="route('transfers.index')"
-                class="inline-flex items-center rounded-lg border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-lg border border-primary-200 dark:border-primary-800 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
             >
                 Cancel
             </Link>

@@ -56,7 +56,7 @@ const donutTitles = {
         <Head title="Reports" />
 
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800">
+            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                 Reports
             </h2>
         </template>
@@ -96,14 +96,14 @@ const donutTitles = {
                         class="flex flex-col items-center justify-center py-12 text-center"
                     >
                         <span
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500"
                         >
                             <ChartPieIcon class="h-6 w-6" />
                         </span>
-                        <p class="mt-3 text-sm font-medium text-slate-700">
+                        <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                             No expense recorded in this period yet.
                         </p>
-                        <p class="mt-1 text-xs text-slate-500">
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                             Try switching the period above.
                         </p>
                     </div>

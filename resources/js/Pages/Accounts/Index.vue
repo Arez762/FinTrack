@@ -44,13 +44,13 @@ const destroy = async (account) => {
 
         <template #header>
             <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800">
+                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                     Accounts
                 </h2>
 
                 <Link
                     :href="route('accounts.create')"
-                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800"
+                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 active:bg-primary-800"
                 >
                     <PlusIcon class="h-4 w-4" />
                     New Account
@@ -61,78 +61,78 @@ const destroy = async (account) => {
         <div class="py-8">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div
-                    class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+                    class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm"
                 >
                     <div class="hidden overflow-x-auto md:block">
-                        <table class="min-w-full divide-y divide-slate-200">
-                        <thead class="bg-slate-50">
+                        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                        <thead class="bg-slate-50 dark:bg-slate-800">
                             <tr>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Name
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Type
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Initial Balance
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Current Balance
                                 </th>
                                 <th
                                     scope="col"
-                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Actions
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 bg-white">
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-700 bg-white dark:bg-slate-800">
                             <tr
                                 v-for="account in accounts"
                                 :key="account.id"
-                                class="transition duration-150 hover:bg-slate-50"
+                                class="transition duration-150 hover:bg-slate-50 dark:hover:bg-slate-800"
                             >
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         <span
-                                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-xs font-bold uppercase text-primary-700"
+                                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 dark:bg-primary-500/20 text-xs font-bold uppercase text-primary-700 dark:text-primary-300"
                                         >
                                             {{ account.name.charAt(0) }}
                                         </span>
-                                        <span class="text-sm font-medium text-slate-900">
+                                        <span class="text-sm font-medium text-slate-900 dark:text-slate-100">
                                             {{ account.name }}
                                         </span>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-slate-600">
+                                <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                     <span
-                                        class="inline-flex rounded-full border border-primary-200 bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700"
+                                        class="inline-flex rounded-full border border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-500/10 px-2.5 py-0.5 text-xs font-medium text-primary-700 dark:text-primary-300"
                                     >
                                         {{ typeLabels[account.type] ?? account.type }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right text-sm text-slate-600">
+                                <td class="px-6 py-4 text-right text-sm text-slate-600 dark:text-slate-300">
                                     {{ formatIDR(account.initial_balance) }}
                                 </td>
                                 <td
                                     class="px-6 py-4 text-right text-sm font-semibold"
                                     :class="
                                         account.balance >= 0
-                                            ? 'text-emerald-600'
-                                            : 'text-red-600'
+                                            ? 'text-emerald-600 dark:text-emerald-400'
+                                            : 'text-red-600 dark:text-red-400'
                                     "
                                 >
                                     {{ formatIDR(account.balance) }}
@@ -147,19 +147,19 @@ const destroy = async (account) => {
                                                     from: account.id,
                                                 })
                                             "
-                                            class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition duration-150 hover:bg-slate-100 hover:text-slate-800"
+                                            class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 transition duration-150 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-100"
                                         >
                                             Transfer
                                         </Link>
                                         <Link
                                             :href="route('accounts.edit', account.id)"
-                                            class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50 hover:text-primary-800"
+                                            class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 dark:text-primary-400 transition duration-150 hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-primary-800 dark:hover:text-primary-300"
                                         >
                                             Edit
                                         </Link>
                                         <button
                                             @click="destroy(account)"
-                                            class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 hover:text-red-800"
+                                            class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-800 dark:hover:text-red-300"
                                         >
                                             Delete
                                         </button>
@@ -173,16 +173,16 @@ const destroy = async (account) => {
                                         class="flex flex-col items-center justify-center text-center"
                                     >
                                         <span
-                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                                         >
                                             <WalletIcon class="h-6 w-6" />
                                         </span>
                                         <p
-                                            class="mt-3 text-sm font-medium text-slate-700"
+                                            class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200"
                                         >
                                             No accounts yet.
                                         </p>
-                                        <p class="mt-1 text-xs text-slate-500">
+                                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                             Add a wallet or bank account to start
                                             tracking your money.
                                         </p>
@@ -200,7 +200,7 @@ const destroy = async (account) => {
                     </div>
 
                     <!-- Mobile list -->
-                    <ul class="divide-y divide-slate-100 md:hidden">
+                    <ul class="divide-y divide-slate-100 dark:divide-slate-700 md:hidden">
                         <li
                             v-for="account in accounts"
                             :key="`m-${account.id}`"
@@ -209,18 +209,18 @@ const destroy = async (account) => {
                             <div class="flex items-start justify-between gap-3">
                                 <div class="flex min-w-0 items-center gap-3">
                                     <span
-                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-sm font-bold uppercase text-primary-700"
+                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 dark:bg-primary-500/20 text-sm font-bold uppercase text-primary-700 dark:text-primary-300"
                                     >
                                         {{ account.name.charAt(0) }}
                                     </span>
                                     <div class="min-w-0">
                                         <p
-                                            class="truncate text-sm font-medium text-slate-900"
+                                            class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
                                         >
                                             {{ account.name }}
                                         </p>
                                         <span
-                                            class="mt-0.5 inline-flex rounded-full border border-primary-200 bg-primary-50 px-2 py-0.5 text-[11px] font-medium text-primary-700"
+                                            class="mt-0.5 inline-flex rounded-full border border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-500/10 px-2 py-0.5 text-[11px] font-medium text-primary-700 dark:text-primary-300"
                                         >
                                             {{
                                                 typeLabels[account.type] ??
@@ -235,13 +235,13 @@ const destroy = async (account) => {
                                         class="text-sm font-semibold"
                                         :class="
                                             account.balance >= 0
-                                                ? 'text-emerald-600'
-                                                : 'text-red-600'
+                                                ? 'text-emerald-600 dark:text-emerald-400'
+                                                : 'text-red-600 dark:text-red-400'
                                         "
                                     >
                                         {{ formatIDR(account.balance) }}
                                     </p>
-                                    <p class="mt-0.5 text-[11px] text-slate-500">
+                                    <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
                                         Initial
                                         {{ formatIDR(account.initial_balance) }}
                                     </p>
@@ -255,19 +255,19 @@ const destroy = async (account) => {
                                             from: account.id,
                                         })
                                     "
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 transition duration-150 hover:bg-slate-100"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 transition duration-150 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 >
                                     Transfer
                                 </Link>
                                 <Link
                                     :href="route('accounts.edit', account.id)"
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 dark:text-primary-400 transition duration-150 hover:bg-primary-50 dark:hover:bg-primary-500/10"
                                 >
                                     Edit
                                 </Link>
                                 <button
                                     @click="destroy(account)"
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 dark:hover:bg-red-500/10"
                                 >
                                     Delete
                                 </button>
@@ -279,14 +279,14 @@ const destroy = async (account) => {
                                 class="flex flex-col items-center justify-center text-center"
                             >
                                 <span
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                                 >
                                     <WalletIcon class="h-6 w-6" />
                                 </span>
-                                <p class="mt-3 text-sm font-medium text-slate-700">
+                                <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                                     No accounts yet.
                                 </p>
-                                <p class="mt-1 text-xs text-slate-500">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     Add a wallet or bank account to start
                                     tracking your money.
                                 </p>

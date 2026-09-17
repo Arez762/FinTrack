@@ -10,6 +10,7 @@ import {
     ChartPieIcon,
     ExclamationTriangleIcon,
     InboxIcon,
+    CurrencyDollarIcon,
     WalletIcon,
 } from '@heroicons/vue/24/outline';
 import { defineAsyncComponent, computed } from 'vue';
@@ -37,6 +38,14 @@ const props = defineProps({
     budgets: {
         type: Array,
         default: () => [],
+    },
+    goal_summary: {
+        type: Object,
+        default: () => ({
+            total: 0,
+            active: 0,
+            average_progress: 0,
+        }),
     },
     range: {
         type: String,
@@ -67,9 +76,9 @@ const typeLabels = {
 };
 
 const typeBadgeClasses = {
-    income: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-    expense: 'border-red-200 bg-red-50 text-red-700',
-    transfer: 'border-slate-300 bg-slate-100 text-slate-600',
+    income: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400',
+    expense: 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-500/10 dark:text-red-400',
+    transfer: 'border-slate-300 bg-slate-100 text-slate-600 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300',
 };
 
 const formatIDR = (value) =>
@@ -88,10 +97,10 @@ const formatDate = (value) =>
 
 const amountClass = (transaction) =>
     transaction.type === 'income'
-        ? 'text-emerald-600'
+        ? 'text-emerald-600 dark:text-emerald-400'
         : transaction.type === 'expense'
-          ? 'text-red-600'
-          : 'text-slate-600';
+          ? 'text-red-600 dark:text-red-400'
+          : 'text-slate-600 dark:text-slate-300';
 
 const isTransfer = (transaction) =>
     transaction.type === 'transfer' && !!transaction.transfer_to_account;
@@ -140,7 +149,7 @@ const donutTitles = {
         <Head title="Dashboard" />
 
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800">
+            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                 Dashboard
             </h2>
         </template>
@@ -151,29 +160,29 @@ const donutTitles = {
                     v-if="budget_alerts.length"
                     :href="route('budgets.index')"
                     data-testid="budget-alert"
-                    class="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3.5 shadow-sm transition duration-150 hover:bg-amber-100 sm:px-5"
+                    class="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3.5 shadow-sm transition duration-150 hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-900/20 dark:hover:bg-amber-900/40 sm:px-5"
                 >
                     <span
-                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600"
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400"
                     >
                         <ExclamationTriangleIcon class="h-5 w-5" />
                     </span>
 
                     <div class="min-w-0 flex-1">
-                        <p class="text-sm font-semibold text-amber-900">
+                        <p class="text-sm font-semibold text-amber-900 dark:text-amber-100">
                             {{ budget_alerts.length }} budget{{
                                 budget_alerts.length === 1 ? '' : 's'
                             }}
                             need{{ budget_alerts.length === 1 ? 's' : '' }}
                             attention
                         </p>
-                        <p class="mt-0.5 truncate text-xs text-amber-700">
+                        <p class="mt-0.5 truncate text-xs text-amber-700 dark:text-amber-300">
                             {{ alertSummary }}
                         </p>
                     </div>
 
                     <span
-                        class="shrink-0 self-center text-xs font-semibold text-amber-700"
+                        class="shrink-0 self-center text-xs font-semibold text-amber-700 dark:text-amber-300"
                     >
                         View
                     </span>
@@ -181,12 +190,12 @@ const donutTitles = {
 
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     <div
-                        class="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition duration-150 hover:shadow-md"
+                        class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition duration-150 hover:shadow-md"
                     >
                         <div class="flex items-start justify-between gap-4">
                             <div class="min-w-0">
                                 <p
-                                    class="text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Total Balance
                                 </p>
@@ -194,8 +203,8 @@ const donutTitles = {
                                     class="mt-2 truncate text-2xl font-bold tracking-tight"
                                     :class="
                                         summary.total_balance >= 0
-                                            ? 'text-primary-700'
-                                            : 'text-red-600'
+                                            ? 'text-primary-700 dark:text-primary-400'
+                                            : 'text-red-600 dark:text-red-400'
                                     "
                                 >
                                     {{ formatIDR(summary.total_balance) }}
@@ -206,26 +215,26 @@ const donutTitles = {
                                 class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
                                 :class="
                                     summary.total_balance >= 0
-                                        ? 'bg-primary-50 text-primary-600'
-                                        : 'bg-red-50 text-red-600'
+                                        ? 'bg-primary-50 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400'
+                                        : 'bg-red-50 text-red-600 dark:bg-red-500/20 dark:text-red-400'
                                 "
                             >
                                 <WalletIcon class="h-6 w-6" />
                             </span>
                         </div>
 
-                        <p class="mt-3 text-xs text-slate-500">
+                        <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
                             All accounts combined
                         </p>
                     </div>
 
                     <div
-                        class="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition duration-150 hover:shadow-md"
+                        class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition duration-150 hover:shadow-md"
                     >
                         <div class="flex items-start justify-between gap-4">
                             <div class="min-w-0">
                                 <p
-                                    class="text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Income
                                 </p>
@@ -237,24 +246,24 @@ const donutTitles = {
                             </div>
 
                             <span
-                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
                             >
                                 <ArrowTrendingUpIcon class="h-6 w-6" />
                             </span>
                         </div>
 
-                        <p class="mt-3 text-xs text-slate-500">
+                        <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
                             {{ summary.month }}
                         </p>
                     </div>
 
                     <div
-                        class="relative overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition duration-150 hover:shadow-md"
+                        class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition duration-150 hover:shadow-md"
                     >
                         <div class="flex items-start justify-between gap-4">
                             <div class="min-w-0">
                                 <p
-                                    class="text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                    class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                 >
                                     Expense
                                 </p>
@@ -266,13 +275,13 @@ const donutTitles = {
                             </div>
 
                             <span
-                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600"
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-500/20 dark:text-red-400"
                             >
                                 <ArrowTrendingDownIcon class="h-6 w-6" />
                             </span>
                         </div>
 
-                        <p class="mt-3 text-xs text-slate-500">
+                        <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
                             {{ summary.month }}
                         </p>
                     </div>
@@ -290,7 +299,7 @@ const donutTitles = {
                             v-for="budget in budgets"
                             :key="budget.id"
                             data-testid="dashboard-budget-card"
-                            class="flex flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition duration-150 hover:shadow-md"
+                            class="flex flex-col rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-sm transition duration-150 hover:shadow-md"
                         >
                             <div class="flex items-start justify-between gap-3">
                                 <div class="flex min-w-0 items-center gap-3">
@@ -310,13 +319,13 @@ const donutTitles = {
                                     </span>
                                     <div class="min-w-0">
                                         <p
-                                            class="truncate text-sm font-medium text-slate-900"
+                                            class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
                                         >
                                             {{
                                                 budget.category?.name ?? 'Unknown'
                                             }}
                                         </p>
-                                        <p class="text-xs text-slate-500">
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">
                                             {{
                                                 budget.period === 'year'
                                                     ? 'Tahunan'
@@ -329,7 +338,7 @@ const donutTitles = {
                                 <span
                                     v-if="isBudgetAlmostFull(budget)"
                                     data-testid="dashboard-budget-almost-full"
-                                    class="inline-flex shrink-0 items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700"
+                                    class="inline-flex shrink-0 items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300"
                                 >
                                     <ExclamationTriangleIcon class="h-3 w-3" />
                                     Hampir Habis
@@ -339,7 +348,7 @@ const donutTitles = {
                             <div class="mt-4">
                                 <div
                                     data-testid="dashboard-budget-progress"
-                                    class="h-2 w-full overflow-hidden rounded-full bg-slate-100"
+                                    class="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
                                 >
                                     <div
                                         data-testid="dashboard-budget-progress-fill"
@@ -351,7 +360,7 @@ const donutTitles = {
                                     ></div>
                                 </div>
 
-                                <p class="mt-2 text-xs text-slate-500">
+                                <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
                                     {{ formatIDR(budget.spent) }} dari
                                     {{ formatIDR(budget.amount_limit) }}
                                     terpakai
@@ -365,22 +374,98 @@ const donutTitles = {
                         class="flex flex-col items-center justify-center py-12 text-center"
                     >
                         <span
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                         >
                             <BanknotesIcon class="h-6 w-6" />
                         </span>
-                        <p class="mt-3 text-sm font-medium text-slate-700">
+                        <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                             Belum ada budget dibuat
                         </p>
-                        <p class="mt-1 text-xs text-slate-500">
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                             Atur batas pengeluaran per kategori agar tetap
                             terkontrol.
                         </p>
                         <Link
                             :href="route('budgets.create')"
-                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                         >
                             Buat Budget
+                        </Link>
+                    </div>
+                </Card>
+
+                <Card
+                    title="Ringkasan Tabungan"
+                    :subtitle="`${goal_summary.active} target aktif dari ${goal_summary.total} total`"
+                >
+                    <template #actions>
+                        <Link
+                            :href="route('savings-goals.index')"
+                            class="inline-flex items-center rounded-lg border border-primary-200 bg-white dark:border-primary-800 dark:bg-slate-800 px-3 py-1.5 text-xs font-semibold text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
+                        >
+                            Kelola
+                        </Link>
+                    </template>
+
+                    <div
+                        v-if="goal_summary.total"
+                        class="flex items-center gap-4"
+                    >
+                        <span
+                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400"
+                        >
+                            <CurrencyDollarIcon class="h-6 w-6" />
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                Rata-rata progress semua target
+                            </p>
+                            <div
+                                class="mt-1.5 flex items-center gap-3"
+                            >
+                                <div
+                                    class="h-2 flex-1 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"
+                                >
+                                    <div
+                                        class="h-full rounded-full bg-primary-500 transition-all duration-300"
+                                        :style="{
+                                            width: `${Math.min(
+                                                100,
+                                                Math.max(
+                                                    0,
+                                                    goal_summary.average_progress,
+                                                ),
+                                            )}%`,
+                                        }"
+                                    ></div>
+                                </div>
+                                <span class="text-sm font-bold text-primary-700 dark:text-primary-300">
+                                    {{ Math.round(goal_summary.average_progress) }}%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        v-else
+                        class="flex flex-col items-center justify-center py-8 text-center"
+                    >
+                        <span
+                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
+                        >
+                            <CurrencyDollarIcon class="h-6 w-6" />
+                        </span>
+                        <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
+                            Belum ada target tabungan
+                        </p>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                            Mulai menabung untuk impianmu.
+                        </p>
+                        <Link
+                            :href="route('savings-goals.create')"
+                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+                        >
+                            Buat Target
                         </Link>
                     </div>
                 </Card>
@@ -421,14 +506,14 @@ const donutTitles = {
                             class="flex flex-col items-center justify-center py-12 text-center"
                         >
                             <span
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                             >
                                 <ChartPieIcon class="h-6 w-6" />
                             </span>
-                            <p class="mt-3 text-sm font-medium text-slate-700">
+                            <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                                 No expense recorded in this period yet.
                             </p>
-                            <p class="mt-1 text-xs text-slate-500">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 Try switching the period above.
                             </p>
                         </div>
@@ -437,12 +522,12 @@ const donutTitles = {
                     <Card title="Recent Transactions" subtitle="Your 5 latest transactions">
                         <div
                             v-if="recent_transactions.length"
-                            class="-mx-5 -my-5 divide-y divide-slate-100"
+                            class="-mx-5 -my-5 divide-y divide-slate-100 dark:divide-slate-700"
                         >
                             <div
                                 v-for="transaction in recent_transactions"
                                 :key="transaction.id"
-                                class="flex items-center gap-3 px-5 py-3.5 transition duration-150 hover:bg-slate-50"
+                                class="flex items-center gap-3 px-5 py-3.5 transition duration-150 hover:bg-slate-50 dark:hover:bg-slate-700"
                             >
                                 <span
                                     class="h-9 w-9 shrink-0 rounded-full"
@@ -464,7 +549,7 @@ const donutTitles = {
                                 <div class="min-w-0 flex-1">
                                     <div class="flex items-center gap-2">
                                         <p
-                                            class="truncate text-sm font-medium text-slate-900"
+                                            class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
                                         >
                                             {{
                                                 transaction.category?.name ||
@@ -483,12 +568,12 @@ const donutTitles = {
                                             {{ typeLabels[transaction.type] }}
                                         </span>
                                     </div>
-                                    <p class="truncate text-xs text-slate-500">
+                                    <p class="truncate text-xs text-slate-500 dark:text-slate-400">
                                         <template v-if="isTransfer(transaction)">
                                             {{ transaction.account?.name }}
                                             <span
                                                 aria-hidden="true"
-                                                class="text-slate-400"
+                                                class="text-slate-400 dark:text-slate-500"
                                                 >→</span
                                             >
                                             {{
@@ -522,19 +607,19 @@ const donutTitles = {
                             class="flex flex-col items-center justify-center py-12 text-center"
                         >
                             <span
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                             >
                                 <InboxIcon class="h-6 w-6" />
                             </span>
-                            <p class="mt-3 text-sm font-medium text-slate-700">
+                            <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                                 No transactions yet.
                             </p>
-                            <p class="mt-1 text-xs text-slate-500">
+                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 Your latest activity will show up here.
                             </p>
                             <Link
                                 :href="route('transactions.create')"
-                                class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                                class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                             >
                                 Create your first transaction
                             </Link>

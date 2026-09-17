@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'vue-chartjs';
 import { computed } from 'vue';
+import { isDark } from '@/Composables/useDarkMode';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -55,7 +56,11 @@ const chartData = computed(() => ({
     ],
 }));
 
-const chartOptions = {
+const tickColor = () => (isDark.value ? '#94a3b8' : '#64748b');
+
+const gridColor = () => (isDark.value ? 'rgba(148,163,184,0.2)' : 'rgba(2,132,199,0.1)');
+
+const chartOptions = computed(() => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -65,6 +70,7 @@ const chartOptions = {
                 usePointStyle: true,
                 pointStyle: 'circle',
                 padding: 20,
+                color: tickColor(),
             },
         },
         tooltip: {
@@ -77,16 +83,20 @@ const chartOptions = {
     scales: {
         x: {
             grid: { display: false },
+            ticks: {
+                color: tickColor(),
+            },
         },
         y: {
             beginAtZero: true,
-            grid: { color: 'rgba(2,132,199,0.1)' },
+            grid: { color: gridColor() },
             ticks: {
+                color: tickColor(),
                 callback: (value) => formatCompact(value),
             },
         },
     },
-};
+}));
 </script>
 
 <template>

@@ -147,7 +147,7 @@ class TransactionSecurityTest extends TestCase
     public function test_amount_sql_injection_string_is_rejected(): void
     {
         $this->post(route('transactions.store'), $this->validPayload([
-            'amount' => "50; DROP TABLE transactions; --",
+            'amount' => '50; DROP TABLE transactions; --',
         ]))->assertSessionHasErrors('amount');
 
         $this->assertDatabaseMissing('transactions', ['user_id' => $this->user->id]);
@@ -155,7 +155,7 @@ class TransactionSecurityTest extends TestCase
 
     public function test_filter_account_id_sql_injection_is_rejected(): void
     {
-        $this->get(route('transactions.index', ['account_id' => "1 OR 1=1"]))
+        $this->get(route('transactions.index', ['account_id' => '1 OR 1=1']))
             ->assertSessionHasErrors('account_id');
     }
 

@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import SidebarLink from '@/Components/SidebarLink.vue';
 import { errorPopup, toastError, toastSuccess } from '@/Composables/useSwal';
+import { isDark, toggleDarkMode } from '@/Composables/useDarkMode';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import {
     ArrowPathIcon,
@@ -11,7 +12,10 @@ import {
     BanknotesIcon,
     Bars3Icon,
     ChartBarIcon,
+    CurrencyDollarIcon,
     HomeIcon,
+    MoonIcon,
+    SunIcon,
     TagIcon,
     UserCircleIcon,
     WalletIcon,
@@ -75,6 +79,12 @@ const navigation = [
         icon: BanknotesIcon,
     },
     {
+        name: 'Savings',
+        route: 'savings-goals.index',
+        pattern: 'savings-goals.*',
+        icon: CurrencyDollarIcon,
+    },
+    {
         name: 'Reports',
         route: 'reports.index',
         pattern: 'reports.*',
@@ -101,6 +111,9 @@ const pageTitles = {
     'budgets.index': 'Budgets',
     'budgets.create': 'New Budget',
     'budgets.edit': 'Edit Budget',
+    'savings-goals.index': 'Savings Goals',
+    'savings-goals.create': 'New Savings Goal',
+    'savings-goals.edit': 'Edit Savings Goal',
     'reports.index': 'Reports',
     'profile.edit': 'Profile',
 };
@@ -111,7 +124,7 @@ const logout = () => router.post(route('logout'));
 </script>
 
 <template>
-    <div class="flex min-h-screen flex-col bg-slate-50">
+    <div class="flex min-h-screen flex-col bg-slate-50 dark:bg-slate-950">
         <!-- Mobile overlay -->
         <div
             v-if="sidebarOpen"
@@ -121,22 +134,25 @@ const logout = () => router.post(route('logout'));
 
         <!-- Sidebar -->
         <aside
-            class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200 bg-white transition-transform duration-200 ease-in-out md:translate-x-0"
+            class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-slate-200 bg-white transition-transform duration-200 ease-in-out dark:border-slate-700 dark:bg-slate-900 md:translate-x-0"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
             <div
-                class="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-200 px-5"
+                class="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-200 px-5 dark:border-slate-700"
             >
                 <Link :href="route('dashboard')" class="flex items-center gap-2">
                     <ApplicationLogo
-                        class="h-8 w-auto fill-current text-primary-600"
+                        class="h-8 w-auto fill-current text-primary-600 dark:text-primary-400"
                     />
-                    <span class="text-lg font-bold text-slate-900">finTrack</span>
+                    <span
+                        class="text-lg font-bold text-slate-900 dark:text-slate-100"
+                        >finTrack</span
+                    >
                 </Link>
 
                 <button
                     type="button"
-                    class="-me-1 inline-flex items-center justify-center rounded-md p-1.5 text-slate-400 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-500 focus:outline-none md:hidden"
+                    class="-me-1 inline-flex items-center justify-center rounded-md p-1.5 text-slate-400 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-500 focus:outline-none dark:hover:bg-slate-800 dark:hover:text-slate-300 md:hidden"
                     aria-label="Close navigation"
                     @click="sidebarOpen = false"
                 >
@@ -144,7 +160,9 @@ const logout = () => router.post(route('logout'));
                 </button>
             </div>
 
-            <nav class="flex-1 space-y-1 overflow-y-auto overscroll-contain px-3 py-4">
+            <nav
+                class="flex-1 space-y-1 overflow-y-auto overscroll-contain px-3 py-4"
+            >
                 <SidebarLink
                     v-for="item in navigation"
                     :key="item.name"
@@ -157,18 +175,22 @@ const logout = () => router.post(route('logout'));
                 </SidebarLink>
             </nav>
 
-            <div class="border-t border-slate-200 p-3">
+            <div class="border-t border-slate-200 p-3 dark:border-slate-700">
                 <div class="mb-2 flex items-center gap-3 px-3 py-1">
                     <div
-                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700"
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-700 dark:bg-primary-500/20 dark:text-primary-300"
                     >
                         <UserCircleIcon class="h-6 w-6" />
                     </div>
                     <div class="min-w-0">
-                        <div class="truncate text-sm font-medium text-slate-900">
+                        <div
+                            class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
+                        >
                             {{ $page.props.auth.user.name }}
                         </div>
-                        <div class="truncate text-xs text-slate-500">
+                        <div
+                            class="truncate text-xs text-slate-500 dark:text-slate-400"
+                        >
                             {{ $page.props.auth.user.email }}
                         </div>
                     </div>
@@ -185,11 +207,11 @@ const logout = () => router.post(route('logout'));
 
                 <button
                     type="button"
-                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-900 focus:outline-none"
+                    class="group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-900 focus:outline-none dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
                     @click="logout"
                 >
                     <ArrowRightOnRectangleIcon
-                        class="h-5 w-5 shrink-0 text-slate-400 group-hover:text-slate-500"
+                        class="h-5 w-5 shrink-0 text-slate-400 group-hover:text-slate-500 dark:text-slate-500 dark:group-hover:text-slate-300"
                     />
                     <span class="truncate">Log Out</span>
                 </button>
@@ -200,14 +222,14 @@ const logout = () => router.post(route('logout'));
         <div class="flex flex-1 flex-col pb-24 md:pb-0 md:pl-64">
             <!-- Topbar -->
             <header
-                class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur"
+                class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-700 dark:bg-slate-900/95"
             >
                 <div
                     class="flex min-h-16 items-center gap-3 px-4 py-2 sm:px-6 lg:px-8"
                 >
                     <button
                         type="button"
-                        class="-ms-1 inline-flex items-center justify-center rounded-md p-2 text-slate-400 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-500 focus:outline-none md:hidden"
+                        class="-ms-1 inline-flex items-center justify-center rounded-md p-2 text-slate-400 transition duration-150 ease-in-out hover:bg-slate-100 hover:text-slate-500 focus:outline-none dark:hover:bg-slate-800 dark:hover:text-slate-300 md:hidden"
                         aria-label="Open navigation"
                         @click="sidebarOpen = true"
                     >
@@ -222,10 +244,20 @@ const logout = () => router.post(route('logout'));
                     </div>
                     <h1
                         v-else
-                        class="truncate text-base font-semibold text-slate-800"
+                        class="truncate text-base font-semibold text-slate-800 dark:text-slate-100"
                     >
                         {{ pageTitle }}
                     </h1>
+
+                    <button
+                        type="button"
+                        class="inline-flex items-center justify-center rounded-md border border-slate-200 bg-white p-2 text-slate-500 shadow-sm transition-colors duration-200 ease-in-out hover:bg-slate-50 hover:text-slate-700 focus:outline-none dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+                        aria-label="Toggle dark mode"
+                        @click="toggleDarkMode"
+                    >
+                        <SunIcon v-if="isDark" class="h-5 w-5" />
+                        <MoonIcon v-else class="h-5 w-5" />
+                    </button>
                 </div>
             </header>
 
@@ -234,10 +266,10 @@ const logout = () => router.post(route('logout'));
             </main>
 
             <footer
-                class="border-t border-slate-200 bg-white px-4 py-4 sm:px-6 lg:px-8"
+                class="border-t border-slate-200 bg-white px-4 py-4 sm:px-6 lg:px-8 dark:border-slate-700 dark:bg-slate-900"
             >
                 <div
-                    class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-1.5 text-sm text-slate-500 sm:flex-row"
+                    class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-1.5 text-sm text-slate-500 sm:flex-row dark:text-slate-400"
                 >
                     <p>
                         &copy; {{ new Date().getFullYear() }} finTrack. All
@@ -250,9 +282,9 @@ const logout = () => router.post(route('logout'));
 
         <!-- Mobile bottom navigation -->
         <nav
-            class="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+            class="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur dark:border-slate-700 dark:bg-slate-900/95 md:hidden"
         >
-            <div class="grid grid-cols-7">
+            <div class="grid grid-cols-4">
                 <Link
                     v-for="item in navigation"
                     :key="item.name"
@@ -260,8 +292,8 @@ const logout = () => router.post(route('logout'));
                     class="flex flex-col items-center justify-center gap-0.5 px-1 py-2 transition duration-150"
                     :class="
                         route().current(item.pattern)
-                            ? 'text-primary-600'
-                            : 'text-slate-400 hover:text-slate-600'
+                            ? 'text-primary-600 dark:text-primary-400'
+                            : 'text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200'
                     "
                 >
                     <component
@@ -269,7 +301,7 @@ const logout = () => router.post(route('logout'));
                         class="h-6 w-6"
                         :class="
                             route().current(item.pattern)
-                                ? 'text-primary-600'
+                                ? 'text-primary-600 dark:text-primary-400'
                                 : 'text-slate-400'
                         "
                     />

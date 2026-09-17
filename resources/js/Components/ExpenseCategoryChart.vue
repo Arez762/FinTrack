@@ -8,6 +8,7 @@ import {
 } from 'chart.js';
 import { Doughnut } from 'vue-chartjs';
 import { computed } from 'vue';
+import { isDark } from '@/Composables/useDarkMode';
 
 ChartJS.register(ArcElement, Title, Tooltip, Legend);
 
@@ -33,14 +34,14 @@ const chartData = computed(() => ({
             backgroundColor: props.categories.map(
                 (category) => category.color || '#94a3b8',
             ),
-            borderColor: '#ffffff',
+            borderColor: isDark.value ? '#1e293b' : '#ffffff',
             borderWidth: 2,
             hoverOffset: 6,
         },
     ],
 }));
 
-const chartOptions = {
+const chartOptions = computed(() => ({
     responsive: true,
     maintainAspectRatio: false,
     cutout: '58%',
@@ -51,6 +52,7 @@ const chartOptions = {
                 usePointStyle: true,
                 pointStyle: 'circle',
                 padding: 16,
+                color: isDark.value ? '#94a3b8' : '#64748b',
             },
         },
         tooltip: {
@@ -69,7 +71,7 @@ const chartOptions = {
             },
         },
     },
-};
+}));
 </script>
 
 <template>

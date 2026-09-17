@@ -51,7 +51,7 @@ const submit = () => {
             <input
                 id="name"
                 type="text"
-                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.name"
                 required
                 autofocus
@@ -68,15 +68,15 @@ const submit = () => {
                     class="flex cursor-pointer items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition duration-150 ease-in-out"
                     :class="
                         form.type === 'expense'
-                            ? 'border-red-400 bg-red-50 text-red-700'
-                            : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
+                            ? 'border-red-400 bg-red-50 text-red-700 dark:text-red-400'
+                            : 'border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
                     "
                 >
                     <input
                         type="radio"
                         value="expense"
                         v-model="form.type"
-                        class="h-4 w-4 border-gray-300 text-red-500 focus:ring-red-500"
+                        class="h-4 w-4 border-gray-300 dark:bg-slate-900 text-red-500 focus:ring-red-500"
                     />
                     Expense
                 </label>
@@ -85,15 +85,15 @@ const submit = () => {
                     class="flex cursor-pointer items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition duration-150 ease-in-out"
                     :class="
                         form.type === 'income'
-                            ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
-                            : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
+                            ? 'border-emerald-400 bg-emerald-50 text-emerald-700 dark:text-emerald-400'
+                            : 'border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
                     "
                 >
                     <input
                         type="radio"
                         value="income"
                         v-model="form.type"
-                        class="h-4 w-4 border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                        class="h-4 w-4 border-gray-300 dark:bg-slate-900 text-emerald-500 focus:ring-emerald-500"
                     />
                     Income
                 </label>
@@ -115,21 +115,21 @@ const submit = () => {
                     :style="{ backgroundColor: color }"
                     :class="
                         form.color === color
-                            ? 'scale-110 border-gray-800 ring-2 ring-gray-300'
-                            : 'border-white shadow-sm hover:scale-105'
+                            ? 'scale-110 border-gray-800 dark:border-gray-200 ring-2 ring-gray-300 dark:ring-gray-600'
+                            : 'border-white dark:border-slate-600 shadow-sm hover:scale-105'
                     "
                     :aria-label="`Set color to ${color}`"
                 ></button>
 
                 <input
                     type="color"
-                    class="h-10 w-10 cursor-pointer rounded-full border-2 border-white bg-transparent shadow-sm"
+                    class="h-10 w-10 cursor-pointer rounded-full border-2 border-white dark:border-slate-600 bg-transparent shadow-sm"
                     v-model="form.color"
                     aria-label="Pick custom color"
                 />
             </div>
 
-            <p class="mt-2 text-xs text-gray-500">
+            <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
                 Selected:
                 <span
                     class="inline-block h-3 w-3 rounded-full align-middle"
@@ -144,7 +144,7 @@ const submit = () => {
         <div class="flex items-center justify-end gap-4">
             <Link
                 :href="route('categories.index')"
-                class="inline-flex items-center rounded-md border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-md border border-primary-200 dark:border-primary-800 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
             >
                 Cancel
             </Link>

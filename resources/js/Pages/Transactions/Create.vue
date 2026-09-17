@@ -27,7 +27,7 @@ defineProps({
 
         <div class="py-12">
             <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div class="overflow-hidden bg-white dark:bg-slate-800 shadow-sm sm:rounded-lg">
                     <div class="border-b border-gray-200 px-6 py-4">
                         <h3 class="text-base font-medium text-gray-900">
                             Transaction Details

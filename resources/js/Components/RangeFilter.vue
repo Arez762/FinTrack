@@ -37,7 +37,7 @@ const apply = (value) => {
 
 <template>
     <div
-        class="inline-flex w-full rounded-lg border border-primary-200 bg-white p-0.5 shadow-sm sm:w-auto"
+        class="inline-flex w-full rounded-lg border border-primary-200 bg-white p-0.5 shadow-sm dark:border-primary-800 dark:bg-slate-800 sm:w-auto"
     >
         <button
             v-for="option in options"
@@ -48,7 +48,7 @@ const apply = (value) => {
             :class="
                 option.value === range
                     ? 'bg-primary-500 text-white shadow'
-                    : 'text-primary-600 hover:bg-primary-50'
+                    : 'text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-500/10'
             "
         >
             {{ option.label }}

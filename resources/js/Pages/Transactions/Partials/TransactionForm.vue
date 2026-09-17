@@ -65,9 +65,9 @@ const watchType = () => {
 };
 
 const typeOptions = [
-    { value: 'income', label: 'Income', active: 'border-emerald-400 bg-emerald-50 text-emerald-700', radio: 'text-emerald-500 focus:ring-emerald-500' },
-    { value: 'expense', label: 'Expense', active: 'border-red-400 bg-red-50 text-red-700', radio: 'text-red-500 focus:ring-red-500' },
-    { value: 'transfer', label: 'Transfer', active: 'border-primary-400 bg-primary-50 text-primary-700', radio: 'text-primary-500 focus:ring-primary-500' },
+    { value: 'income', label: 'Income', active: 'border-emerald-400 bg-emerald-50 text-emerald-700 dark:text-emerald-400', radio: 'text-emerald-500 focus:ring-emerald-500' },
+    { value: 'expense', label: 'Expense', active: 'border-red-400 bg-red-50 text-red-700 dark:text-red-400', radio: 'text-red-500 focus:ring-red-500' },
+    { value: 'transfer', label: 'Transfer', active: 'border-primary-400 bg-primary-50 text-primary-700 dark:text-primary-300', radio: 'text-primary-500 focus:ring-primary-500' },
 ];
 
 const submit = () => {
@@ -94,7 +94,7 @@ const submit = () => {
                     :class="
                         form.type === option.value
                             ? option.active
-                            : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
+                            : 'border-gray-300 bg-white dark:bg-slate-800 text-gray-600 hover:bg-gray-50'
                     "
                 >
                     <input
@@ -102,7 +102,7 @@ const submit = () => {
                         :value="option.value"
                         v-model="form.type"
                         @change="watchType"
-                        class="h-4 w-4 border-gray-300"
+                        class="h-4 w-4 border-gray-300 dark:bg-slate-900 dark:text-slate-100"
                         :class="option.radio"
                     />
                     {{ option.label }}
@@ -121,7 +121,7 @@ const submit = () => {
 
                 <select
                     id="account_id"
-                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-md border-gray-300 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.account_id"
                     required
                 >
@@ -139,7 +139,7 @@ const submit = () => {
 
                 <select
                     id="transfer_to_account_id"
-                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-md border-gray-300 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.transfer_to_account_id"
                     required
                 >
@@ -164,7 +164,7 @@ const submit = () => {
 
                 <select
                     id="category_id"
-                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-md border-gray-300 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.category_id"
                     :required="!isTransfer"
                     :disabled="isTransfer"
@@ -192,7 +192,7 @@ const submit = () => {
                     type="number"
                     step="0.01"
                     min="0"
-                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-md border-gray-300 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.amount"
                     required
                 />
@@ -207,7 +207,7 @@ const submit = () => {
                     id="transaction_date"
                     type="date"
                     :max="form.type === 'expense' ? today() : undefined"
-                    class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-md border-gray-300 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.transaction_date"
                     required
                 />
@@ -222,7 +222,7 @@ const submit = () => {
             <textarea
                 id="description"
                 rows="3"
-                class="mt-1 block w-full rounded-md border-gray-300 bg-white shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-md border-gray-300 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.description"
                 placeholder="Add a note..."
             ></textarea>
@@ -235,14 +235,14 @@ const submit = () => {
                 v-if="modal"
                 type="button"
                 @click="emit('close')"
-                class="inline-flex items-center rounded-md border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-md border border-primary-200 dark:border-primary-800 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
             >
                 Cancel
             </button>
             <Link
                 v-else
                 :href="route('transactions.index')"
-                class="inline-flex items-center rounded-md border border-primary-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50"
+                class="inline-flex items-center rounded-md border border-primary-200 dark:border-primary-800 bg-white dark:bg-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-primary-700 dark:text-primary-300 shadow-sm transition duration-150 ease-in-out hover:bg-primary-50 dark:hover:bg-primary-500/10"
             >
                 Cancel
             </Link>

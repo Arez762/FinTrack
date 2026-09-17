@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { nextTick } from 'vue';
 
 const { post, pageState } = vi.hoisted(() => ({
     post: vi.fn(),
@@ -79,6 +80,8 @@ describe('AuthenticatedLayout (sidebar)', () => {
         post.mockClear();
         current.mockReset();
         current.mockReturnValue(false);
+        window.localStorage.clear();
+        document.documentElement.classList.remove('dark');
     });
 
     it('menampilkan brand, seluruh menu navigasi, dan informasi user', () => {
@@ -134,17 +137,17 @@ describe('AuthenticatedLayout (sidebar)', () => {
         expect(wrapper.find('aside').classes()).toContain('-translate-x-full');
     });
 
-    it('menampilkan bottom navigation berisi 7 menu utama (mobile)', () => {
+    it('menampilkan bottom navigation berisi 8 menu utama (mobile)', () => {
         current.mockImplementation((pattern) => pattern === 'reports.*');
 
         const wrapper = mountLayout();
         const bottomNav = wrapper.findAll('nav')[1];
 
         expect(bottomNav).toBeTruthy();
-        expect(bottomNav.find('div').classes()).toContain('grid-cols-7');
+        expect(bottomNav.find('div').classes()).toContain('grid-cols-4');
 
         const links = bottomNav.findAll('a');
-        expect(links).toHaveLength(7);
+        expect(links).toHaveLength(8);
         expect(links.map((link) => link.text())).toEqual([
             'Dashboard',
             'Transactions',
@@ -152,9 +155,10 @@ describe('AuthenticatedLayout (sidebar)', () => {
             'Accounts',
             'Categories',
             'Budgets',
+            'Savings',
             'Reports',
         ]);
-        expect(links[6].classes()).toContain('text-primary-600');
+        expect(links[7].classes()).toContain('text-primary-600');
         expect(links[0].classes()).toContain('text-slate-400');
     });
 
@@ -167,6 +171,25 @@ describe('AuthenticatedLayout (sidebar)', () => {
             .trigger('click');
 
         expect(post).toHaveBeenCalledWith('logout');
+    });
+
+    it('men-toggle dark mode lewat tombol di topbar', async () => {
+        const wrapper = mountLayout();
+
+        const toggle = wrapper.find('[aria-label="Toggle dark mode"]');
+        expect(toggle.exists()).toBe(true);
+
+        await toggle.trigger('click');
+        await nextTick();
+
+        expect(document.documentElement.classList.contains('dark')).toBe(true);
+        expect(window.localStorage.getItem('theme')).toBe('dark');
+
+        await toggle.trigger('click');
+        await nextTick();
+
+        expect(document.documentElement.classList.contains('dark')).toBe(false);
+        expect(window.localStorage.getItem('theme')).toBe('light');
     });
 
     it('menampilkan page heading dan konten', () => {

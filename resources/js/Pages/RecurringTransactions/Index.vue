@@ -42,8 +42,8 @@ const typeLabels = {
 };
 
 const typeBadgeClasses = {
-    income: 'border-emerald-200 bg-emerald-50 text-emerald-700',
-    expense: 'border-red-200 bg-red-50 text-red-700',
+    income: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400',
+    expense: 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-500/10 dark:text-red-400',
 };
 
 const formatIDR = (value) =>
@@ -61,7 +61,7 @@ const formatDate = (value) =>
     }).format(new Date(value));
 
 const amountClass = (item) =>
-    item.type === 'income' ? 'text-emerald-600' : 'text-red-600';
+    item.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400';
 
 const title = (item) =>
     item.description || item.category?.name || 'Recurring transaction';
@@ -102,13 +102,13 @@ const destroy = async (item) => {
 
         <template #header>
             <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800">
+                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
                     Recurring Transactions
                 </h2>
 
                 <Link
                     :href="route('recurring-transactions.create')"
-                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800"
+                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800 dark:focus:ring-offset-slate-900"
                 >
                     <PlusIcon class="h-4 w-4" />
                     New Recurring
@@ -119,19 +119,19 @@ const destroy = async (item) => {
         <div class="py-8">
             <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                 <div
-                    class="flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm sm:px-5"
+                    class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3.5 shadow-sm sm:px-5"
                 >
                     <span
-                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600"
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400"
                     >
                         <ArrowPathIcon class="h-5 w-5" />
                     </span>
                     <div>
-                        <p class="text-sm font-medium text-slate-800">
+                        <p class="text-sm font-medium text-slate-800 dark:text-slate-100">
                             {{ activeCount }} active of
                             {{ recurringTransactions.length }} template(s)
                         </p>
-                        <p class="mt-0.5 text-xs text-slate-500">
+                        <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                             Due templates are turned into transactions
                             automatically once per day. Pause one to stop it
                             without losing the setup.
@@ -140,68 +140,68 @@ const destroy = async (item) => {
                 </div>
 
                 <div
-                    class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+                    class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm"
                 >
                     <div class="hidden overflow-x-auto md:block">
-                        <table class="min-w-full divide-y divide-slate-200">
-                            <thead class="bg-slate-50">
+                        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                            <thead class="bg-slate-50 dark:bg-slate-800">
                                 <tr>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Description
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Account
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Category
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Frequency
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Next Run
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Status
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Amount
                                     </th>
                                     <th
                                         scope="col"
-                                        class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500"
+                                        class="px-6 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                                     >
                                         Actions
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 bg-white">
+                            <tbody class="divide-y divide-slate-100 dark:divide-slate-700 bg-white dark:bg-slate-800">
                                 <tr
                                     v-for="item in recurringTransactions"
                                     :key="item.id"
                                     data-testid="recurring-row"
-                                    class="transition duration-150 hover:bg-slate-50"
+                                    class="transition duration-150 hover:bg-slate-50 dark:hover:bg-slate-800"
                                 >
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
@@ -224,7 +224,7 @@ const destroy = async (item) => {
                                             </span>
                                             <div class="min-w-0">
                                                 <p
-                                                    class="max-w-[16rem] truncate text-sm font-medium text-slate-900"
+                                                    class="max-w-[16rem] truncate text-sm font-medium text-slate-900 dark:text-slate-100"
                                                 >
                                                     {{ title(item) }}
                                                 </p>
@@ -242,20 +242,20 @@ const destroy = async (item) => {
                                         </div>
                                     </td>
                                     <td
-                                        class="whitespace-nowrap px-6 py-4 text-sm text-slate-600"
+                                        class="whitespace-nowrap px-6 py-4 text-sm text-slate-600 dark:text-slate-300"
                                     >
                                         {{ item.account?.name ?? '-' }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-slate-600">
+                                    <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-300">
                                         {{ item.category?.name ?? '-' }}
                                     </td>
                                     <td
-                                        class="whitespace-nowrap px-6 py-4 text-sm text-slate-600"
+                                        class="whitespace-nowrap px-6 py-4 text-sm text-slate-600 dark:text-slate-300"
                                     >
                                         {{ frequencyLabels[item.frequency] }}
                                     </td>
                                     <td
-                                        class="whitespace-nowrap px-6 py-4 text-sm text-slate-600"
+                                        class="whitespace-nowrap px-6 py-4 text-sm text-slate-600 dark:text-slate-300"
                                     >
                                         {{ formatDate(item.next_run_date) }}
                                     </td>
@@ -265,8 +265,8 @@ const destroy = async (item) => {
                                             class="inline-flex rounded-full border px-2.5 py-0.5 text-xs font-medium"
                                             :class="
                                                 item.is_active
-                                                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                                                    : 'border-slate-200 bg-slate-100 text-slate-600'
+                                                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400'
+                                                    : 'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
                                             "
                                         >
                                             {{
@@ -293,7 +293,7 @@ const destroy = async (item) => {
                                                 :class="
                                                     item.is_active
                                                         ? 'text-amber-600 hover:bg-amber-50 hover:text-amber-800'
-                                                        : 'text-emerald-600 hover:bg-emerald-50 hover:text-emerald-800'
+                                                        : 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 hover:text-emerald-800'
                                                 "
                                             >
                                                 <PauseIcon
@@ -317,13 +317,13 @@ const destroy = async (item) => {
                                                         item.id,
                                                     )
                                                 "
-                                                class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50 hover:text-primary-800"
+                                                class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 dark:text-primary-400 transition duration-150 hover:bg-primary-50 dark:hover:bg-primary-500/10 hover:text-primary-800 dark:hover:text-primary-300"
                                             >
                                                 Edit
                                             </Link>
                                             <button
                                                 @click="destroy(item)"
-                                                class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50 hover:text-red-800"
+                                                class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 dark:text-red-400 transition duration-150 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-800 dark:hover:text-red-300"
                                             >
                                                 Delete
                                             </button>
@@ -337,19 +337,19 @@ const destroy = async (item) => {
                                             class="flex flex-col items-center justify-center text-center"
                                         >
                                             <span
-                                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                                             >
                                                 <ArrowPathIcon
                                                     class="h-6 w-6"
                                                 />
                                             </span>
                                             <p
-                                                class="mt-3 text-sm font-medium text-slate-700"
+                                                class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200"
                                             >
                                                 No recurring transactions yet.
                                             </p>
                                             <p
-                                                class="mt-1 text-xs text-slate-500"
+                                                class="mt-1 text-xs text-slate-500 dark:text-slate-400"
                                             >
                                                 Automate your regular income and
                                                 expenses.
@@ -373,7 +373,7 @@ const destroy = async (item) => {
                     </div>
 
                     <!-- Mobile list -->
-                    <ul class="divide-y divide-slate-100 md:hidden">
+                    <ul class="divide-y divide-slate-100 dark:divide-slate-700 md:hidden">
                         <li
                             v-for="item in recurringTransactions"
                             :key="`m-${item.id}`"
@@ -392,13 +392,13 @@ const destroy = async (item) => {
                                             }"
                                         ></span>
                                         <p
-                                            class="truncate text-sm font-medium text-slate-900"
+                                            class="truncate text-sm font-medium text-slate-900 dark:text-slate-100"
                                         >
                                             {{ title(item) }}
                                         </p>
                                     </div>
                                     <p
-                                        class="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500"
+                                        class="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 dark:text-slate-400"
                                     >
                                         <span>{{
                                             frequencyHints[item.frequency]
@@ -408,7 +408,7 @@ const destroy = async (item) => {
                                             item.account?.name ?? '-'
                                         }}</span>
                                     </p>
-                                    <p class="mt-1 text-xs text-slate-500">
+                                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                         Next:
                                         {{ formatDate(item.next_run_date) }}
                                     </p>
@@ -426,8 +426,8 @@ const destroy = async (item) => {
                                         class="mt-1 inline-flex rounded-full border px-2 py-0.5 text-[11px] font-medium"
                                         :class="
                                             item.is_active
-                                                ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                                                : 'border-slate-200 bg-slate-100 text-slate-600'
+                                                ? 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-400'
+                                                : 'border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
                                         "
                                     >
                                         {{
@@ -445,7 +445,7 @@ const destroy = async (item) => {
                                     :class="
                                         item.is_active
                                             ? 'text-amber-600 hover:bg-amber-50'
-                                            : 'text-emerald-600 hover:bg-emerald-50'
+                                            : 'text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50'
                                     "
                                 >
                                     <PauseIcon
@@ -462,13 +462,13 @@ const destroy = async (item) => {
                                             item.id,
                                         )
                                     "
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 transition duration-150 hover:bg-primary-50"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-primary-600 dark:text-primary-400 transition duration-150 hover:bg-primary-50 dark:hover:bg-primary-500/10"
                                 >
                                     Edit
                                 </Link>
                                 <button
                                     @click="destroy(item)"
-                                    class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 transition duration-150 hover:bg-red-50"
+                                    class="rounded-md px-3 py-2 text-xs font-semibold text-red-600 dark:text-red-400 transition duration-150 hover:bg-red-50"
                                 >
                                     Delete
                                 </button>
@@ -483,14 +483,14 @@ const destroy = async (item) => {
                                 class="flex flex-col items-center justify-center text-center"
                             >
                                 <span
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                                 >
                                     <RectangleStackIcon class="h-6 w-6" />
                                 </span>
-                                <p class="mt-3 text-sm font-medium text-slate-700">
+                                <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
                                     No recurring transactions yet.
                                 </p>
-                                <p class="mt-1 text-xs text-slate-500">
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                     Automate your regular income and expenses.
                                 </p>
                                 <Link

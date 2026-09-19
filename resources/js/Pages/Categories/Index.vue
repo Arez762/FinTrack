@@ -1,5 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PageHeader from '@/Components/PageHeader.vue';
+import EmptyState from '@/Components/EmptyState.vue';
 import { confirmDelete } from '@/Composables/useSwal';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { PlusIcon, TagIcon } from '@heroicons/vue/24/outline';
@@ -34,26 +36,24 @@ const destroy = async (category) => {
     <AuthenticatedLayout>
         <Head title="Categories" />
 
-        <template #header>
-            <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
-                    Categories
-                </h2>
-
-                <Link
-                    :href="route('categories.create')"
-                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 active:bg-primary-800"
-                >
-                    <PlusIcon class="h-4 w-4" />
-                    New Category
-                </Link>
-            </div>
-        </template>
-
         <div class="py-8">
             <div
-                class="mx-auto grid max-w-7xl gap-6 sm:px-6 md:grid-cols-2 lg:px-8"
+                class="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:px-8"
             >
+                <div class="md:col-span-2">
+                    <PageHeader title="Categories" subtitle="Organize your income and expenses with categories.">
+                        <template #actions>
+                            <Link
+                                :href="route('categories.create')"
+                                class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 active:bg-primary-800"
+                            >
+                                <PlusIcon class="h-4 w-4" />
+                                New Category
+                            </Link>
+                        </template>
+                    </PageHeader>
+                </div>
+
                 <div v-for="group in ['expense', 'income']" :key="group">
                     <div class="mb-3 flex items-center justify-between">
                         <h3
@@ -120,20 +120,9 @@ const destroy = async (category) => {
 
                         <div
                             v-if="grouped[group].length === 0"
-                            class="flex flex-col items-center justify-center px-5 py-12 text-center"
+                            class="px-5 py-12"
                         >
-                            <span
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                            >
-                                <TagIcon class="h-6 w-6" />
-                            </span>
-                            <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                No {{ group }} categories yet.
-                            </p>
-                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                Group your {{ group }} transactions with a
-                                category.
-                            </p>
+                            <EmptyState :icon="TagIcon" :title="`No ${group} categories yet.`" :description="`Group your ${group} transactions with a category.`" />
                         </div>
                     </div>
                 </div>

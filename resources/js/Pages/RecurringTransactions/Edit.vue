@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Card from '@/Components/Card.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import RecurringTransactionForm from '@/Pages/RecurringTransactions/Partials/RecurringTransactionForm.vue';
 import { Head } from '@inertiajs/vue3';
 
@@ -24,24 +24,22 @@ defineProps({
     <AuthenticatedLayout>
         <Head title="Edit Recurring Transaction" />
 
-        <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
-                Edit Recurring Transaction
-            </h2>
-        </template>
-
         <div class="py-8">
-            <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <Card
-                    title="Recurring Details"
+            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+                <PageHeader
+                    title="Edit Recurring Transaction"
                     subtitle="Update this template; already created transactions are untouched."
+                />
+
+                <div
+                    class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
                 >
                     <RecurringTransactionForm
                         :recurring-transaction="recurringTransaction"
                         :accounts="accounts"
                         :categories="categories"
                     />
-                </Card>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

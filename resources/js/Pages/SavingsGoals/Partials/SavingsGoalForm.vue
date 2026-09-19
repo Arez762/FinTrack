@@ -67,14 +67,14 @@ const submit = () => {
 </script>
 
 <template>
-    <form @submit.prevent="submit" class="space-y-6">
+    <form @submit.prevent="submit" class="space-y-5">
         <div>
             <InputLabel for="name" value="Nama Target" />
 
             <input
                 id="name"
                 type="text"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.name"
                 placeholder="Contoh: Dana Darurat, Liburan Bali"
                 required
@@ -92,7 +92,7 @@ const submit = () => {
                     type="number"
                     step="0.01"
                     min="0"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.target_amount"
                     required
                 />
@@ -109,7 +109,7 @@ const submit = () => {
                 <input
                     id="target_date"
                     type="date"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                     v-model="form.target_date"
                 />
 
@@ -122,7 +122,7 @@ const submit = () => {
 
             <select
                 id="account_id"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.account_id"
             >
                 <option value="">Tidak terkait akun</option>
@@ -180,7 +180,7 @@ const submit = () => {
                     :style="{ backgroundColor: color }"
                     :class="
                         form.color === color
-                            ? 'scale-110 border-gray-800 ring-2 ring-gray-300 dark:border-gray-200 dark:ring-gray-500'
+                            ? 'scale-110 border-primary-600 ring-2 ring-primary-500 dark:border-primary-400 dark:ring-primary-500'
                             : 'border-white shadow-sm hover:scale-105 dark:border-slate-600'
                     "
                     :aria-label="`Set color to ${color}`"

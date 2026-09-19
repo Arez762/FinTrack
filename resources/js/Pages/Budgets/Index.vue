@@ -2,6 +2,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { confirmDelete } from '@/Composables/useSwal';
 import { Head, Link, router } from '@inertiajs/vue3';
+import EmptyState from '@/Components/EmptyState.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import { BanknotesIcon, PlusIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
@@ -92,24 +94,19 @@ const destroy = async (budget) => {
     <AuthenticatedLayout>
         <Head title="Budgets" />
 
-        <template #header>
-            <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
-                    Budgets
-                </h2>
-
-                <Link
-                    :href="route('budgets.create')"
-                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 active:bg-primary-800"
-                >
-                    <PlusIcon class="h-4 w-4" />
-                    New Budget
-                </Link>
-            </div>
-        </template>
-
         <div class="py-8">
-            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+                <PageHeader title="Budgets" subtitle="Set spending limits per category and track them over time.">
+                    <template #actions>
+                        <Link
+                            :href="route('budgets.create')"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 active:bg-primary-800"
+                        >
+                            <PlusIcon class="h-4 w-4" />
+                            New Budget
+                        </Link>
+                    </template>
+                </PageHeader>
                 <div
                     class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3.5 shadow-sm sm:px-5"
                 >
@@ -254,30 +251,22 @@ const destroy = async (budget) => {
 
                 <div
                     v-else
-                    class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-16 shadow-sm"
+                    class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm"
                 >
-                    <div
-                        class="flex flex-col items-center justify-center text-center"
+                    <EmptyState
+                        :icon="BanknotesIcon"
+                        title="No budgets for this period yet."
+                        description="Set a limit per category to keep your spending on track."
                     >
-                        <span
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                        >
-                            <BanknotesIcon class="h-6 w-6" />
-                        </span>
-                        <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                            No budgets for this period yet.
-                        </p>
-                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            Set a limit per category to keep your spending on
-                            track.
-                        </p>
-                        <Link
-                            :href="route('budgets.create')"
-                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
-                        >
-                            Create your first budget
-                        </Link>
-                    </div>
+                        <template #action>
+                            <Link
+                                :href="route('budgets.create')"
+                                class="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
+                            >
+                                Create your first budget
+                            </Link>
+                        </template>
+                    </EmptyState>
                 </div>
             </div>
         </div>

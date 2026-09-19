@@ -33,7 +33,7 @@ const submit = () => {
 </script>
 
 <template>
-    <form @submit.prevent="submit" class="space-y-6">
+    <form @submit.prevent="submit" class="space-y-5">
         <div>
             <InputLabel for="amount" value="Jumlah Dana" />
 
@@ -42,7 +42,7 @@ const submit = () => {
                 type="number"
                 step="0.01"
                 min="0"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                 v-model="form.amount"
                 placeholder="Masukkan jumlah yang ingin ditabung"
                 required

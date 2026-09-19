@@ -1,5 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import EmptyState from '@/Components/EmptyState.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import { confirmAction, confirmDelete } from '@/Composables/useSwal';
 import { Head, Link, router } from '@inertiajs/vue3';
 import {
@@ -100,24 +102,22 @@ const destroy = async (item) => {
     <AuthenticatedLayout>
         <Head title="Recurring Transactions" />
 
-        <template #header>
-            <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
-                    Recurring Transactions
-                </h2>
-
-                <Link
-                    :href="route('recurring-transactions.create')"
-                    class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800 dark:focus:ring-offset-slate-900"
-                >
-                    <PlusIcon class="h-4 w-4" />
-                    New Recurring
-                </Link>
-            </div>
-        </template>
-
         <div class="py-8">
-            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+                <PageHeader
+                    title="Recurring Transactions"
+                    subtitle="Manage templates that auto-create transactions on schedule."
+                >
+                    <template #actions>
+                        <Link
+                            :href="route('recurring-transactions.create')"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800 dark:focus:ring-offset-slate-900"
+                        >
+                            <PlusIcon class="h-4 w-4" />
+                            New Recurring
+                        </Link>
+                    </template>
+                </PageHeader>
                 <div
                     class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3.5 shadow-sm sm:px-5"
                 >
@@ -332,40 +332,21 @@ const destroy = async (item) => {
                                 </tr>
 
                                 <tr v-if="recurringTransactions.length === 0">
-                                    <td colspan="8" class="px-6 py-16">
-                                        <div
-                                            class="flex flex-col items-center justify-center text-center"
+                                    <td colspan="8">
+                                        <EmptyState
+                                            :icon="ArrowPathIcon"
+                                            title="No recurring transactions yet."
+                                            description="Automate your regular income and expenses."
                                         >
-                                            <span
-                                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                                            >
-                                                <ArrowPathIcon
-                                                    class="h-6 w-6"
-                                                />
-                                            </span>
-                                            <p
-                                                class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200"
-                                            >
-                                                No recurring transactions yet.
-                                            </p>
-                                            <p
-                                                class="mt-1 text-xs text-slate-500 dark:text-slate-400"
-                                            >
-                                                Automate your regular income and
-                                                expenses.
-                                            </p>
-                                            <Link
-                                                :href="
-                                                    route(
-                                                        'recurring-transactions.create',
-                                                    )
-                                                "
-                                                class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
-                                            >
-                                                Create your first recurring
-                                                transaction
-                                            </Link>
-                                        </div>
+                                            <template #action>
+                                                <Link
+                                                    :href="route('recurring-transactions.create')"
+                                                    class="inline-flex items-center rounded-lg bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
+                                                >
+                                                    Create your first recurring transaction
+                                                </Link>
+                                            </template>
+                                        </EmptyState>
                                     </td>
                                 </tr>
                             </tbody>
@@ -479,31 +460,20 @@ const destroy = async (item) => {
                             v-if="recurringTransactions.length === 0"
                             class="px-4 py-12"
                         >
-                            <div
-                                class="flex flex-col items-center justify-center text-center"
+                            <EmptyState
+                                :icon="RectangleStackIcon"
+                                title="No recurring transactions yet."
+                                description="Automate your regular income and expenses."
                             >
-                                <span
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                                >
-                                    <RectangleStackIcon class="h-6 w-6" />
-                                </span>
-                                <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                    No recurring transactions yet.
-                                </p>
-                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    Automate your regular income and expenses.
-                                </p>
-                                <Link
-                                    :href="
-                                        route(
-                                            'recurring-transactions.create',
-                                        )
-                                    "
-                                    class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
-                                >
-                                    Create your first recurring transaction
-                                </Link>
-                            </div>
+                                <template #action>
+                                    <Link
+                                        :href="route('recurring-transactions.create')"
+                                        class="inline-flex items-center rounded-lg bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
+                                    >
+                                        Create your first recurring transaction
+                                    </Link>
+                                </template>
+                            </EmptyState>
                         </li>
                     </ul>
                 </div>

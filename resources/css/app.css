@@ -24,3 +24,39 @@
 .fintrack-swal-toast {
     font-size: 0.875rem;
 }
+
+.sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background-color: #cbd5e1;
+}
+
+:is(.dark .sidebar-scroll)::-webkit-scrollbar-thumb {
+    background-color: #334155;
+}
+
+input[type='date'] {
+    color-scheme: light;
+}
+
+.dark input[type='date'] {
+    color-scheme: dark;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 0.25rem;
+}

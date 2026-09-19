@@ -27,6 +27,13 @@ vi.mock('vue-chartjs', () => ({
     },
 }));
 
+vi.mock('@/Layouts/AuthenticatedLayout.vue', () => ({
+    default: {
+        name: 'AuthenticatedLayout',
+        template: '<div><slot /></div>',
+    },
+}));
+
 vi.mock('@inertiajs/vue3', async (importOriginal) => {
     const actual = await importOriginal();
     return {
@@ -197,6 +204,40 @@ describe('Dashboard tampilan', () => {
 
         expect(wrapper.text()).toContain('No transactions yet.');
         expect(wrapper.text()).toContain('Create your first transaction');
+    });
+});
+
+describe('Dashboard tampilan mobile', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('menampilkan judul, tanggal hari ini, dan badge jumlah akun/anggaran', async () => {
+        const wrapper = mountPage({ account_count: 3, budget_count: 5 });
+        await flushPromises();
+
+        expect(wrapper.text()).toContain('Dashboard');
+        expect(wrapper.text()).toContain('3 Akun');
+        expect(wrapper.text()).toContain('5 Anggaran');
+
+        const today = new Intl.DateTimeFormat('id-ID', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        }).format(new Date());
+        expect(wrapper.text()).toContain(today);
+    });
+
+    it('menampilkan kartu ringkasan mobile dengan label dan subteks', async () => {
+        const wrapper = mountPage({ account_count: 3 });
+        await flushPromises();
+
+        expect(wrapper.text()).toContain('Total Saldo');
+        expect(wrapper.text()).toContain('3 akun terdaftar');
+        expect(wrapper.text()).toContain('Pemasukan');
+        expect(wrapper.text()).toContain('Pengeluaran');
+        expect(wrapper.text()).toContain('Bulan ini');
     });
 });
 

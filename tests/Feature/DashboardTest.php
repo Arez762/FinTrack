@@ -94,6 +94,8 @@ class DashboardTest extends TestCase
             ->where('category_expense.0.total', 250_000)
             ->has('category_expense', 1)
             ->has('budgets', 0)
+            ->where('account_count', 1)
+            ->where('budget_count', 0)
         );
     }
 
@@ -248,6 +250,8 @@ class DashboardTest extends TestCase
         $budgets = $response->inertiaProps('budgets');
 
         $this->assertCount(2, $budgets);
+        $this->assertSame(1, $response->inertiaProps('account_count'));
+        $this->assertSame(2, $response->inertiaProps('budget_count'));
         $this->assertSame('Makan', $budgets[0]['category']['name']);
         $this->assertSame('#ef4444', $budgets[0]['category']['color']);
         $this->assertEquals(300_000, $budgets[0]['amount_limit']);

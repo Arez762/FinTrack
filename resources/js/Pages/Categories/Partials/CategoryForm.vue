@@ -44,14 +44,14 @@ const submit = () => {
 </script>
 
 <template>
-    <form @submit.prevent="submit" class="space-y-6">
+    <form @submit.prevent="submit" class="space-y-5">
         <div>
             <InputLabel for="name" value="Category Name" />
 
             <input
                 id="name"
                 type="text"
-                class="mt-1 block w-full rounded-md border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                 v-model="form.name"
                 required
                 autofocus
@@ -69,14 +69,14 @@ const submit = () => {
                     :class="
                         form.type === 'expense'
                             ? 'border-red-400 bg-red-50 text-red-700 dark:text-red-400'
-                            : 'border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
+                            : 'border-slate-300 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                     "
                 >
                     <input
                         type="radio"
                         value="expense"
                         v-model="form.type"
-                        class="h-4 w-4 border-gray-300 dark:bg-slate-900 text-red-500 focus:ring-red-500"
+                        class="h-4 w-4 border-slate-300 dark:bg-slate-900 text-red-500 focus:ring-red-500"
                     />
                     Expense
                 </label>
@@ -86,14 +86,14 @@ const submit = () => {
                     :class="
                         form.type === 'income'
                             ? 'border-emerald-400 bg-emerald-50 text-emerald-700 dark:text-emerald-400'
-                            : 'border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700'
+                            : 'border-slate-300 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                     "
                 >
                     <input
                         type="radio"
                         value="income"
                         v-model="form.type"
-                        class="h-4 w-4 border-gray-300 dark:bg-slate-900 text-emerald-500 focus:ring-emerald-500"
+                        class="h-4 w-4 border-slate-300 dark:bg-slate-900 text-emerald-500 focus:ring-emerald-500"
                     />
                     Income
                 </label>
@@ -115,7 +115,7 @@ const submit = () => {
                     :style="{ backgroundColor: color }"
                     :class="
                         form.color === color
-                            ? 'scale-110 border-gray-800 dark:border-gray-200 ring-2 ring-gray-300 dark:ring-gray-600'
+                            ? 'scale-110 border-primary-600 ring-2 ring-primary-500 dark:border-primary-400 dark:ring-primary-500'
                             : 'border-white dark:border-slate-600 shadow-sm hover:scale-105'
                     "
                     :aria-label="`Set color to ${color}`"
@@ -129,7 +129,7 @@ const submit = () => {
                 />
             </div>
 
-            <p class="mt-2 text-xs text-gray-500 dark:text-slate-400">
+            <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
                 Selected:
                 <span
                     class="inline-block h-3 w-3 rounded-full align-middle"

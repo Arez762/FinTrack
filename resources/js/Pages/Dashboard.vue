@@ -1,5 +1,7 @@
 <script setup>
 import Card from '@/Components/Card.vue';
+import EmptyState from '@/Components/EmptyState.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import RangeFilter from '@/Components/RangeFilter.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
@@ -38,6 +40,14 @@ const props = defineProps({
     budgets: {
         type: Array,
         default: () => [],
+    },
+    account_count: {
+        type: Number,
+        default: 0,
+    },
+    budget_count: {
+        type: Number,
+        default: 0,
     },
     goal_summary: {
         type: Object,
@@ -107,6 +117,15 @@ const isTransfer = (transaction) =>
 
 const hasExpense = computed(() => props.category_expense.length > 0);
 
+const todayLabel = computed(() =>
+    new Intl.DateTimeFormat('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    }).format(new Date()),
+);
+
 const alertSummary = computed(() =>
     props.budget_alerts
         .slice(0, 3)
@@ -148,14 +167,39 @@ const donutTitles = {
     <AuthenticatedLayout>
         <Head title="Dashboard" />
 
-        <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
-                Dashboard
-            </h2>
-        </template>
+        <div class="py-4 md:py-8">
+            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+                <PageHeader
+                    class="hidden md:flex"
+                    title="Dashboard"
+                    :subtitle="`Ringkasan keuanganmu untuk ${summary.month}`"
+                />
 
-        <div class="py-8">
-            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+                <div class="md:hidden">
+                    <h1
+                        class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
+                    >
+                        Dashboard
+                    </h1>
+                    <div class="mt-1.5 flex flex-wrap items-center gap-2">
+                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                            {{ todayLabel }}
+                        </p>
+                        <div class="ml-auto flex items-center gap-2">
+                            <span
+                                class="inline-flex items-center rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-semibold text-primary-700 dark:bg-primary-500/20 dark:text-primary-400"
+                            >
+                                {{ account_count }} Akun
+                            </span>
+                            <span
+                                class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400"
+                            >
+                                {{ budget_count }} Anggaran
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
                 <Link
                     v-if="budget_alerts.length"
                     :href="route('budgets.index')"
@@ -188,7 +232,89 @@ const donutTitles = {
                     </span>
                 </Link>
 
-                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="space-y-4 md:hidden">
+                    <div
+                        class="rounded-2xl bg-white p-5 dark:bg-slate-800"
+                    >
+                        <div class="flex items-start justify-between gap-4">
+                            <p
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                Total Saldo
+                            </p>
+                            <span
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-600 dark:bg-primary-500/20 dark:text-primary-400"
+                            >
+                                <WalletIcon class="h-6 w-6" />
+                            </span>
+                        </div>
+                        <p
+                            class="mt-3 truncate text-2xl font-bold tracking-tight text-slate-900 dark:text-white"
+                            :class="
+                                summary.total_balance >= 0
+                                    ? 'text-slate-900 dark:text-white'
+                                    : 'text-red-600 dark:text-red-400'
+                            "
+                        >
+                            {{ formatIDR(summary.total_balance) }}
+                        </p>
+                        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                            {{ account_count }} akun terdaftar
+                        </p>
+                    </div>
+
+                    <div
+                        class="rounded-2xl bg-white p-5 dark:bg-slate-800"
+                    >
+                        <div class="flex items-start justify-between gap-4">
+                            <p
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                Pemasukan
+                            </p>
+                            <span
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
+                            >
+                                <ArrowTrendingUpIcon class="h-6 w-6" />
+                            </span>
+                        </div>
+                        <p
+                            class="mt-3 truncate text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400"
+                        >
+                            {{ formatIDR(summary.month_income) }}
+                        </p>
+                        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                            Bulan ini
+                        </p>
+                    </div>
+
+                    <div
+                        class="rounded-2xl bg-white p-5 dark:bg-slate-800"
+                    >
+                        <div class="flex items-start justify-between gap-4">
+                            <p
+                                class="text-sm font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                Pengeluaran
+                            </p>
+                            <span
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400"
+                            >
+                                <ArrowTrendingDownIcon class="h-6 w-6" />
+                            </span>
+                        </div>
+                        <p
+                            class="mt-3 truncate text-2xl font-bold tracking-tight text-red-600 dark:text-red-400"
+                        >
+                            {{ formatIDR(summary.month_expense) }}
+                        </p>
+                        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
+                            Bulan ini
+                        </p>
+                    </div>
+                </div>
+
+                <div class="hidden gap-4 sm:grid-cols-2 md:grid lg:grid-cols-3">
                     <div
                         class="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm transition duration-150 hover:shadow-md"
                     >
@@ -369,29 +495,21 @@ const donutTitles = {
                         </div>
                     </div>
 
-                    <div
+                    <EmptyState
                         v-else
-                        class="flex flex-col items-center justify-center py-12 text-center"
+                        :icon="BanknotesIcon"
+                        title="Belum ada budget dibuat"
+                        description="Atur batas pengeluaran per kategori agar tetap terkontrol."
                     >
-                        <span
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                        >
-                            <BanknotesIcon class="h-6 w-6" />
-                        </span>
-                        <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                            Belum ada budget dibuat
-                        </p>
-                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            Atur batas pengeluaran per kategori agar tetap
-                            terkontrol.
-                        </p>
-                        <Link
-                            :href="route('budgets.create')"
-                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
-                        >
-                            Buat Budget
-                        </Link>
-                    </div>
+                        <template #action>
+                            <Link
+                                :href="route('budgets.create')"
+                                class="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+                            >
+                                Buat Budget
+                            </Link>
+                        </template>
+                    </EmptyState>
                 </Card>
 
                 <Card
@@ -446,28 +564,21 @@ const donutTitles = {
                         </div>
                     </div>
 
-                    <div
+                    <EmptyState
                         v-else
-                        class="flex flex-col items-center justify-center py-8 text-center"
+                        :icon="CurrencyDollarIcon"
+                        title="Belum ada target tabungan"
+                        description="Mulai menabung untuk impianmu."
                     >
-                        <span
-                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                        >
-                            <CurrencyDollarIcon class="h-6 w-6" />
-                        </span>
-                        <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                            Belum ada target tabungan
-                        </p>
-                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            Mulai menabung untuk impianmu.
-                        </p>
-                        <Link
-                            :href="route('savings-goals.create')"
-                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
-                        >
-                            Buat Target
-                        </Link>
-                    </div>
+                        <template #action>
+                            <Link
+                                :href="route('savings-goals.create')"
+                                class="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+                            >
+                                Buat Target
+                            </Link>
+                        </template>
+                    </EmptyState>
                 </Card>
 
                 <Card
@@ -501,22 +612,12 @@ const donutTitles = {
                                 :categories="category_expense"
                             />
                         </div>
-                        <div
+                        <EmptyState
                             v-else
-                            class="flex flex-col items-center justify-center py-12 text-center"
-                        >
-                            <span
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                            >
-                                <ChartPieIcon class="h-6 w-6" />
-                            </span>
-                            <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                No expense recorded in this period yet.
-                            </p>
-                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                Try switching the period above.
-                            </p>
-                        </div>
+                            :icon="ChartPieIcon"
+                            title="No expense recorded in this period yet."
+                            description="Try switching the period above."
+                        />
                     </Card>
 
                     <Card title="Recent Transactions" subtitle="Your 5 latest transactions">
@@ -602,28 +703,21 @@ const donutTitles = {
                             </div>
                         </div>
 
-                        <div
+                        <EmptyState
                             v-else
-                            class="flex flex-col items-center justify-center py-12 text-center"
+                            :icon="InboxIcon"
+                            title="No transactions yet."
+                            description="Your latest activity will show up here."
                         >
-                            <span
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                            >
-                                <InboxIcon class="h-6 w-6" />
-                            </span>
-                            <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                No transactions yet.
-                            </p>
-                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                Your latest activity will show up here.
-                            </p>
-                            <Link
-                                :href="route('transactions.create')"
-                                class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
-                            >
-                                Create your first transaction
-                            </Link>
-                        </div>
+                            <template #action>
+                                <Link
+                                    :href="route('transactions.create')"
+                                    class="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+                                >
+                                    Create your first transaction
+                                </Link>
+                            </template>
+                        </EmptyState>
                     </Card>
                 </div>
             </div>

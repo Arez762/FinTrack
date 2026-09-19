@@ -1,6 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import EmptyState from '@/Components/EmptyState.vue';
 import Modal from '@/Components/Modal.vue';
+import PageHeader from '@/Components/PageHeader.vue';
 import TransactionForm from '@/Pages/Transactions/Partials/TransactionForm.vue';
 import { confirmDelete } from '@/Composables/useSwal';
 import { Head, Link, router } from '@inertiajs/vue3';
@@ -14,7 +16,7 @@ import {
     PlusIcon,
     RectangleStackIcon,
 } from '@heroicons/vue/24/outline';
-import { computed, reactive } from 'vue';
+import { computed, reactive, watch } from 'vue';
 
 const props = defineProps({
     transactions: {
@@ -71,8 +73,26 @@ const applyFilters = () => {
 };
 
 const resetFilters = () => {
+    filters.account_id = '';
+    filters.category_id = '';
+    filters.type = '';
+    filters.date_from = '';
+    filters.date_to = '';
+
     router.get(route('transactions.index'), {}, { preserveState: true, preserveScroll: true });
 };
+
+watch(
+    () => props.filters,
+    (value) => {
+        filters.account_id = value.account_id ?? '';
+        filters.category_id = value.category_id ?? '';
+        filters.type = value.type ?? '';
+        filters.date_from = value.date_from ?? '';
+        filters.date_to = value.date_to ?? '';
+    },
+    { deep: true },
+);
 
 const hasActiveFilters = () =>
     Boolean(filters.account_id || filters.category_id || filters.type || filters.date_from || filters.date_to);
@@ -176,53 +196,50 @@ const destroy = async (transaction) => {
     <AuthenticatedLayout>
         <Head title="Transactions" />
 
-        <template #header>
-            <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="text-xl font-semibold leading-tight text-slate-800 dark:text-slate-100">
-                    Transactions
-                </h2>
-
-                <div class="flex flex-wrap items-center gap-2">
-                    <a
-                        :href="exportUrl('csv')"
-                        data-testid="export-csv"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
-                    >
-                        <ArrowDownTrayIcon class="h-4 w-4" />
-                        Export CSV
-                    </a>
-
-                    <a
-                        :href="exportUrl('pdf')"
-                        data-testid="export-pdf"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
-                    >
-                        <ArrowDownTrayIcon class="h-4 w-4" />
-                        Export PDF
-                    </a>
-
-                    <Link
-                        :href="route('transfers.create')"
-                        data-testid="new-transfer"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
-                    >
-                        <ArrowsRightLeftIcon class="h-4 w-4" />
-                        Transfer
-                    </Link>
-
-                    <button
-                        @click="openCreate"
-                        class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800 dark:focus:ring-offset-slate-900"
-                    >
-                        <PlusIcon class="h-4 w-4" />
-                        New Transaction
-                    </button>
-                </div>
-            </div>
-        </template>
-
         <div class="py-8">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <PageHeader
+                    title="Transactions"
+                    subtitle="Kelola semua pemasukan, pengeluaran, dan transfer."
+                >
+                    <template #actions>
+                        <a
+                            :href="exportUrl('csv')"
+                            data-testid="export-csv"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
+                        >
+                            <ArrowDownTrayIcon class="h-4 w-4" />
+                            Export CSV
+                        </a>
+
+                        <a
+                            :href="exportUrl('pdf')"
+                            data-testid="export-pdf"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
+                        >
+                            <ArrowDownTrayIcon class="h-4 w-4" />
+                            Export PDF
+                        </a>
+
+                        <Link
+                            :href="route('transfers.create')"
+                            data-testid="new-transfer"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-200 shadow-sm transition duration-150 ease-in-out hover:bg-slate-50 dark:hover:bg-slate-800"
+                        >
+                            <ArrowsRightLeftIcon class="h-4 w-4" />
+                            Transfer
+                        </Link>
+
+                        <button
+                            @click="openCreate"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-transparent bg-primary-600 px-3.5 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700 focus:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 active:bg-primary-800 dark:focus:ring-offset-slate-900"
+                        >
+                            <PlusIcon class="h-4 w-4" />
+                            New Transaction
+                        </button>
+                    </template>
+                </PageHeader>
+
                 <form
                     @submit.prevent="applyFilters"
                     class="mb-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 shadow-sm"
@@ -406,6 +423,7 @@ const destroy = async (transaction) => {
                 <div
                     class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm"
                 >
+                    <template v-if="transactions.data.length">
                     <div class="hidden overflow-x-auto md:block">
                         <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                         <thead class="bg-slate-50 dark:bg-slate-800">
@@ -540,35 +558,6 @@ const destroy = async (transaction) => {
                                     </div>
                                 </td>
                             </tr>
-
-                            <tr v-if="transactions.data.length === 0">
-                                <td colspan="7" class="px-6 py-16">
-                                    <div
-                                        class="flex flex-col items-center justify-center text-center"
-                                    >
-                                        <span
-                                            class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                                        >
-                                            <RectangleStackIcon class="h-6 w-6" />
-                                        </span>
-                                        <p
-                                            class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200"
-                                        >
-                                            No transactions yet.
-                                        </p>
-                                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                            Start recording your income and
-                                            expenses to see them here.
-                                        </p>
-                                        <button
-                                            @click="openCreate"
-                                            class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
-                                        >
-                                            Create your first transaction
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
                         </tbody>
                         </table>
                     </div>
@@ -664,34 +653,24 @@ const destroy = async (transaction) => {
                                 </button>
                             </div>
                         </li>
-
-                        <li
-                            v-if="transactions.data.length === 0"
-                            class="px-4 py-12"
-                        >
-                            <div
-                                class="flex flex-col items-center justify-center text-center"
-                            >
-                                <span
-                                    class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                                >
-                                    <RectangleStackIcon class="h-6 w-6" />
-                                </span>
-                                <p class="mt-3 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                    No transactions yet.
-                                </p>
-                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                    Start recording your income and expenses.
-                                </p>
-                                <button
-                                    @click="openCreate"
-                                    class="mt-4 inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
-                                >
-                                    Create your first transaction
-                                </button>
-                            </div>
-                        </li>
                     </ul>
+                    </template>
+
+                    <EmptyState
+                        v-else
+                        :icon="RectangleStackIcon"
+                        title="No transactions yet."
+                        description="Start recording your income and expenses to see them here."
+                    >
+                        <template #action>
+                            <button
+                                @click="openCreate"
+                                class="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition duration-150 ease-in-out hover:bg-primary-700"
+                            >
+                                Create your first transaction
+                            </button>
+                        </template>
+                    </EmptyState>
 
                     <div
                         v-if="transactions.total > transactions.per_page"

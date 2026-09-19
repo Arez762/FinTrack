@@ -72,6 +72,11 @@ class DashboardController extends Controller
         $range = $validated['range'] ?? 'month';
         $categoryRange = $validated['category_range'] ?? 'month';
 
+        $budgets = [
+            ...$budgetService->forPeriod($user, 'month', $now->year, $now->month),
+            ...$budgetService->forPeriod($user, 'year', $now->year),
+        ];
+
         return Inertia::render('Dashboard', [
             'summary' => [
                 'total_balance' => round($this->balances->total($user), 2),
@@ -81,10 +86,9 @@ class DashboardController extends Controller
             ],
             'recent_transactions' => $recentTransactions,
             'budget_alerts' => $budgetService->alerts($user),
-            'budgets' => [
-                ...$budgetService->forPeriod($user, 'month', $now->year, $now->month),
-                ...$budgetService->forPeriod($user, 'year', $now->year),
-            ],
+            'budgets' => $budgets,
+            'account_count' => $user->accounts()->count(),
+            'budget_count' => count($budgets),
             'range' => $range,
             'categoryRange' => $categoryRange,
             'monthly' => $service->incomeExpense($user, $range),

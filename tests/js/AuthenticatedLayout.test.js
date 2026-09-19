@@ -75,7 +75,12 @@ const mountLayout = () =>
 const linkFor = (wrapper, label) =>
     wrapper.findAll('a').find((link) => link.text().includes(label));
 
-describe('AuthenticatedLayout (sidebar)', () => {
+const bottomNav = (wrapper) => {
+    const navs = wrapper.findAll('nav');
+    return navs[navs.length - 1];
+};
+
+describe('AuthenticatedLayout (sidebar desktop)', () => {
     beforeEach(() => {
         post.mockClear();
         current.mockReset();
@@ -120,60 +125,83 @@ describe('AuthenticatedLayout (sidebar)', () => {
 
         const wrapper = mountLayout();
 
-        expect(linkFor(wrapper, 'Transactions').classes()).toContain('bg-primary-50');
-        expect(linkFor(wrapper, 'Transactions').classes()).toContain('text-primary-700');
-        expect(linkFor(wrapper, 'Dashboard').classes()).not.toContain('bg-primary-50');
+        expect(linkFor(wrapper, 'Transactions').classes()).toContain('bg-blue-100');
+        expect(linkFor(wrapper, 'Transactions').classes()).toContain('text-blue-600');
+        expect(linkFor(wrapper, 'Dashboard').classes()).not.toContain('bg-blue-100');
     });
 
-    it('membuka dan menutup drawer sidebar di layar kecil', async () => {
+    it('menampilkan header mobile dengan brand dan ikon aksi', () => {
         const wrapper = mountLayout();
+        const header = wrapper.find('header');
 
-        expect(wrapper.find('aside').classes()).toContain('-translate-x-full');
-
-        await wrapper.find('[aria-label="Open navigation"]').trigger('click');
-        expect(wrapper.find('aside').classes()).toContain('translate-x-0');
-
-        await wrapper.find('[aria-label="Close navigation"]').trigger('click');
-        expect(wrapper.find('aside').classes()).toContain('-translate-x-full');
+        expect(header.text()).toContain('FinTrack');
+        expect(wrapper.find('[aria-label="Toggle dark mode"]').exists()).toBe(true);
+        expect(wrapper.find('[aria-label="Log Out"]').exists()).toBe(true);
+        expect(wrapper.find('[aria-label="Notifikasi"]').exists()).toBe(false);
     });
 
-    it('menampilkan bottom navigation berisi 8 menu utama (mobile)', () => {
-        current.mockImplementation((pattern) => pattern === 'reports.*');
+    it('menampilkan bottom navigation berisi 5 item (mobile)', () => {
+        current.mockImplementation((pattern) => pattern === 'transactions.*');
 
         const wrapper = mountLayout();
-        const bottomNav = wrapper.findAll('nav')[1];
+        const nav = bottomNav(wrapper);
 
-        expect(bottomNav).toBeTruthy();
-        expect(bottomNav.find('div').classes()).toContain('grid-cols-4');
+        expect(nav.exists()).toBe(true);
+        expect(nav.find('div').classes()).toContain('grid-cols-5');
 
-        const links = bottomNav.findAll('a');
-        expect(links).toHaveLength(8);
+        const links = nav.findAll('a');
+        expect(links.map((link) => link.attributes('href'))).toEqual([
+            'dashboard',
+            'transactions.index',
+            'transactions.create',
+            'accounts.index',
+        ]);
+
+        expect(nav.text()).toContain('Beranda');
+        expect(nav.text()).toContain('Transaksi');
+        expect(nav.text()).toContain('Tambah');
+        expect(nav.text()).toContain('Akun');
+        expect(nav.text()).toContain('Lainnya');
+
+        expect(links[1].classes()).toContain('text-primary-600');
+        expect(links[0].classes()).toContain('text-slate-400');
+    });
+
+    it('membuka bottom sheet "Lainnya" berisi halaman yang tidak ada di bottom nav', async () => {
+        const wrapper = mountLayout();
+
+        await bottomNav(wrapper).findAll('button')[0].trigger('click');
+
+        const sheet = wrapper.find('[data-testid="more-sheet"]');
+        expect(sheet.exists()).toBe(true);
+
+        const links = sheet.findAll('a');
         expect(links.map((link) => link.text())).toEqual([
-            'Dashboard',
-            'Transactions',
-            'Recurring',
-            'Accounts',
-            'Categories',
-            'Budgets',
-            'Savings',
+            'Kategori',
+            'Budget',
+            'Target Tabungan',
             'Reports',
         ]);
-        expect(links[7].classes()).toContain('text-primary-600');
-        expect(links[0].classes()).toContain('text-slate-400');
+        expect(links[0].attributes('href')).toBe('categories.index');
+        expect(links[1].attributes('href')).toBe('budgets.index');
+        expect(links[2].attributes('href')).toBe('savings-goals.index');
+        expect(links[3].attributes('href')).toBe('reports.index');
+
+        await wrapper.find('[data-testid="more-sheet-overlay"]').trigger('click');
+        expect(wrapper.find('[data-testid="more-sheet"]').exists()).toBe(false);
     });
 
     it('mengirim request logout saat tombol Log Out diklik', async () => {
         const wrapper = mountLayout();
 
         await wrapper
-            .findAll('button')
-            .find((button) => button.text().includes('Log Out'))
+            .find('button[aria-label="Log Out"]')
             .trigger('click');
 
         expect(post).toHaveBeenCalledWith('logout');
     });
 
-    it('men-toggle dark mode lewat tombol di topbar', async () => {
+    it('men-toggle dark mode lewat tombol di header mobile', async () => {
         const wrapper = mountLayout();
 
         const toggle = wrapper.find('[aria-label="Toggle dark mode"]');

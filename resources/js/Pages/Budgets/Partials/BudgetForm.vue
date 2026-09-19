@@ -83,13 +83,13 @@ const submit = () => {
 </script>
 
 <template>
-    <form @submit.prevent="submit" class="space-y-6">
+    <form @submit.prevent="submit" class="space-y-5">
         <div>
             <InputLabel for="category_id" value="Expense Category" />
 
             <select
                 id="category_id"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                 v-model="form.category_id"
                 required
             >
@@ -118,7 +118,7 @@ const submit = () => {
                 type="number"
                 step="0.01"
                 min="0"
-                class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                 v-model="form.amount_limit"
                 required
             />
@@ -165,7 +165,7 @@ const submit = () => {
 
                 <select
                     id="month"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                     v-model="form.month"
                 >
                     <option
@@ -185,7 +185,7 @@ const submit = () => {
 
                 <select
                     id="year"
-                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white dark:bg-slate-900 dark:text-slate-100 dark:border-slate-600 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    class="mt-1 block w-full rounded-lg border-slate-300 bg-white text-slate-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
                     v-model="form.year"
                 >
                     <option v-for="year in yearOptions" :key="year" :value="year">

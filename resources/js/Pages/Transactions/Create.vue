@@ -1,4 +1,5 @@
 <script setup>
+import PageHeader from '@/Components/PageHeader.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import TransactionForm from '@/Pages/Transactions/Partials/TransactionForm.vue';
 import { Head } from '@inertiajs/vue3';
@@ -19,27 +20,20 @@ defineProps({
     <AuthenticatedLayout>
         <Head title="Create Transaction" />
 
-        <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Create Transaction
-            </h2>
-        </template>
+        <div class="py-8">
+            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+                <PageHeader
+                    title="Create Transaction"
+                    subtitle="Record an income, expense, or transfer."
+                />
 
-        <div class="py-12">
-            <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white dark:bg-slate-800 shadow-sm sm:rounded-lg">
-                    <div class="border-b border-gray-200 px-6 py-4">
-                        <h3 class="text-base font-medium text-gray-900">
-                            Transaction Details
-                        </h3>
-                        <p class="mt-1 text-sm text-gray-600">
-                            Record an income, expense, or transfer.
-                        </p>
-                    </div>
-
-                    <div class="p-6">
-                        <TransactionForm :accounts="accounts" :categories="categories" />
-                    </div>
+                <div
+                    class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+                >
+                    <TransactionForm
+                        :accounts="accounts"
+                        :categories="categories"
+                    />
                 </div>
             </div>
         </div>
